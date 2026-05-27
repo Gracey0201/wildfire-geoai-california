@@ -1,1 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
 .ipynb_checkpoints/
+
+# Environment
+.env
+
+# Cache
+cache/
+
+# Data
+data/
+
+# Outputs
+outputs/
+
+# Temporary notebooks
+Untitled.ipynb

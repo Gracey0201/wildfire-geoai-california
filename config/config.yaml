@@ -1,0 +1,421 @@
+project:
+
+  name: wildfire-geoai-butte-county
+
+  title: >
+    GeoAI-Driven Wildfire Climate Risk Intelligence
+    and Community Vulnerability Modeling
+    for Butte County, California
+
+  description: >
+    Reproducible GeoAI framework for wildfire hazard,
+    socioeconomic vulnerability, exposure modeling,
+    and wildfire susceptibility assessment
+    in Butte County, California.
+
+  author: Grace Nwachukwu
+
+  version: 1.0
+
+  license: MIT
+
+
+study_area:
+
+  region_name: butte_county
+
+  study_region_type: county
+
+  county_name: Butte
+
+  state: california
+
+  country: usa
+
+  boundary_source: census
+
+  crs: EPSG:3310
+
+  resolution: 250
+
+  analysis_years:
+
+    start: 2015
+
+    end: 2025
+
+
+paths:
+
+  raw_data: data/raw
+
+  interim_data: data/interim
+
+  processed_data: data/processed
+
+  training_data: data/training
+
+  outputs: outputs
+
+  models: outputs/models
+
+  figures: outputs/figures
+
+  tables: outputs/tables
+
+  logs: outputs/logs
+
+  web_layers: outputs/web_layers
+
+  notebooks: notebooks
+
+
+datasets:
+
+  boundary:
+
+    source: US Census TIGER
+
+    format: GeoJSON
+
+  dem:
+
+    source: Microsoft Planetary Computer
+
+    collection: cop-dem-glo-30
+
+    output_format: GeoTIFF
+
+  wildfire_history:
+
+    source: MTBS
+
+    enabled: true
+
+  ndvi:
+
+    source: Landsat
+
+    enabled: true
+
+  landcover:
+
+    source: NLCD
+
+    enabled: true
+
+  roads:
+
+    source: TIGER Roads
+
+    enabled: true
+
+  population:
+
+    source: Census ACS
+
+    enabled: true
+
+
+hazard_variables:
+
+  terrain:
+
+    elevation:
+
+      enabled: true
+
+      source: dem
+
+    slope:
+
+      enabled: true
+
+      derived_from: elevation
+
+    aspect:
+
+      enabled: true
+
+      derived_from: elevation
+
+    twi:
+
+      enabled: true
+
+      derived_from: elevation
+
+  vegetation:
+
+    ndvi:
+
+      enabled: true
+
+    landcover:
+
+      enabled: true
+
+  climate:
+
+    temperature:
+
+      enabled: true
+
+    drought_proxy:
+
+      enabled: true
+
+    wind:
+
+      enabled: true
+
+  human_ignition:
+
+    distance_to_roads:
+
+      enabled: true
+
+    distance_to_settlements:
+
+      enabled: true
+
+
+vulnerability_variables:
+
+  poverty_rate:
+
+    enabled: true
+
+  median_household_income:
+
+    enabled: true
+
+  elderly_population:
+
+    enabled: true
+
+  disability_prevalence:
+
+    enabled: true
+
+  housing_vulnerability:
+
+    enabled: true
+
+
+exposure_variables:
+
+  population_density:
+
+    enabled: true
+
+  settlement_density:
+
+    enabled: true
+
+  built_environment:
+
+    enabled: true
+
+
+preprocessing:
+
+  nodata_value: -9999
+
+  reprojection:
+
+    enabled: true
+
+    target_crs: EPSG:3310
+
+    method: gdalwarp
+
+  clipping:
+
+    enabled: true
+
+    clip_to_study_region: true
+
+  raster_alignment:
+
+    enabled: true
+
+  resampling:
+
+    method: bilinear
+
+  normalization:
+
+    enabled: true
+
+  scaling:
+
+    enabled: true
+
+
+feature_engineering:
+
+  slope:
+
+    enabled: true
+
+  aspect:
+
+    enabled: true
+
+  twi:
+
+    enabled: true
+
+  distance_to_roads:
+
+    enabled: true
+
+  ndvi_statistics:
+
+    enabled: true
+
+
+model:
+
+  algorithm: random_forest
+
+  target_variable: wildfire_susceptibility
+
+  train_test_split:
+
+    test_size: 0.2
+
+    random_state: 42
+
+  hyperparameter_strategy:
+
+    tuning_method: randomized_search_cv
+
+    cross_validation_folds: 5
+
+    scoring_metric: roc_auc
+
+  hyperparameter_search_space:
+
+    n_estimators:
+      - 100
+      - 200
+      - 300
+
+    max_depth:
+      - 10
+      - 20
+      - null
+
+    min_samples_split:
+      - 2
+      - 5
+
+    min_samples_leaf:
+      - 1
+      - 2
+
+    max_features:
+      - sqrt
+      - log2
+
+  final_model_parameters:
+
+    n_estimators: 200
+
+    max_depth: 20
+
+    min_samples_split: 2
+
+    min_samples_leaf: 1
+
+    max_features: sqrt
+
+
+evaluation:
+
+  metrics:
+
+    - accuracy
+
+    - precision
+
+    - recall
+
+    - f1_score
+
+    - roc_auc
+
+  confusion_matrix: true
+
+  feature_importance: true
+
+  shap_analysis: false
+
+
+parallel_processing:
+
+  use_dask: true
+
+  chunk_size: 512
+
+
+visualization:
+
+  static_maps:
+
+    enabled: true
+
+    format: png
+
+    dpi: 300
+
+  exploratory_plots:
+
+    enabled: true
+
+  feature_importance_plots:
+
+    enabled: true
+
+  susceptibility_maps:
+
+    enabled: true
+
+
+webmap:
+
+  framework: maplibre
+
+  interactive_dashboard: true
+
+  generate_vector_tiles: true
+
+  publish_webmap: true
+
+
+reproducibility:
+
+  environment_manager: conda
+
+  version_control: git
+
+  cloud_ready: true
+
+  modular_pipeline: true
+
+  notebook_documentation: true
+
+
+future_extensions:
+
+  temporal_forecasting: true
+
+  explainable_ai: true
+
+  docker_support: true
+
+  snakemake_workflow: true
+
+  web_dashboard_expansion: true

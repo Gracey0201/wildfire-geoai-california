@@ -19,6 +19,8 @@ dependencies:
   - rasterio
   - rioxarray
   - xarray
+  - netcdf4
+  - h5netcdf
   - shapely
   - fiona
   - pyproj
@@ -39,6 +41,7 @@ dependencies:
   - jupyterlab
 
   # Utilities
+  - requests
   - pip
 
   - pip:
