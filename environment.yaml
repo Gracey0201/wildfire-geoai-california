@@ -1,0 +1,55 @@
+name: wildfire-geoai
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+
+  # Core scientific stack
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - joblib
+
+  # Geospatial
+  - geopandas
+  - rasterio
+  - rioxarray
+  - xarray
+  - netcdf4
+  - h5netcdf
+  - shapely
+  - fiona
+  - pyproj
+  - pyogrio
+
+  # Terrain analysis
+  - whitebox_tools
+  - pysheds
+
+  # Visualization
+  - matplotlib
+  - plotly
+
+  # Parallel/distributed
+  - dask
+  - distributed
+
+  # Notebook environment
+  - jupyterlab
+
+  # Utilities
+  - requests
+  - pyyaml
+  - pip
+
+  - pip:
+      - pystac-client
+      - planetary-computer
+      - stackstac
+      - leafmap
+      - mapclassify
+      - osmnx
