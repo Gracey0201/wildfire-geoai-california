@@ -100,6 +100,15 @@ labels = rxr.open_rasterio(
 
 
 # =========================================================
+# APPLY COUNTY MASK TO LABELS
+# =========================================================
+
+labels = labels.where(
+    dem != -9999
+)
+
+
+# =========================================================
 # VERIFY SHAPES
 # =========================================================
 
@@ -167,15 +176,40 @@ df = pd.DataFrame({
 # CLEAN DATA
 # =========================================================
 
+print("\nCleaning data")
+
+total_pixels = len(df)
+
+# Replace raster nodata values
+
+df = df.replace(
+    -9999,
+    np.nan
+)
+
+# Replace infinities
+
 df = df.replace(
     [np.inf, -np.inf],
     np.nan
 )
 
+# Remove nodata pixels
+
 df = df.dropna()
+
+removed_pixels = (
+    total_pixels -
+    len(df)
+)
 
 print(
     f"Valid pixels: {len(df):,}"
+)
+
+print(
+    f"Removed nodata pixels: "
+    f"{removed_pixels:,}"
 )
 
 
@@ -277,7 +311,7 @@ print(
 )
 
 print(
-    f"\nPredictors:"
+    "\nPredictors:"
 )
 
 print(
