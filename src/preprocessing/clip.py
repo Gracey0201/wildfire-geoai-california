@@ -59,9 +59,19 @@ def clip_raster(
     output_path
 ):
 
-    print(f"\nClipping: {input_path.name}")
+    print(
+        f"\nClipping: {input_path.name}"
+    )
 
-    with rasterio.open(input_path) as src:
+    with rasterio.open(
+        input_path
+    ) as src:
+
+        nodata_value = src.nodata
+
+        if nodata_value is None:
+
+            nodata_value = -9999
 
         clipped, transform = mask(
 
@@ -69,7 +79,11 @@ def clip_raster(
 
             boundary.geometry,
 
-            crop=True
+            crop=True,
+
+            filled=True,
+
+            nodata=nodata_value
 
         )
 
@@ -78,20 +92,32 @@ def clip_raster(
         metadata.update({
 
             "height": clipped.shape[1],
+
             "width": clipped.shape[2],
-            "transform": transform
+
+            "transform": transform,
+
+            "nodata": nodata_value
 
         })
 
         with rasterio.open(
+
             output_path,
+
             "w",
+
             **metadata
+
         ) as dst:
 
-            dst.write(clipped)
+            dst.write(
+                clipped
+            )
 
-    print(f"Saved: {output_path}")
+    print(
+        f"Saved: {output_path}"
+    )
 
 
 # =========================================================

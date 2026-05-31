@@ -59,11 +59,28 @@ DEM_PATH = (
 # LOAD DEM
 # =========================================================
 
-with rasterio.open(DEM_PATH) as src:
+with rasterio.open(
+    DEM_PATH
+) as src:
 
-    dem = src.read(1)
+    dem = src.read(1).astype(
+        np.float32
+    )
 
-    profile = src.profile
+    profile = src.profile.copy()
+
+    nodata = src.nodata
+
+
+# =========================================================
+# CREATE COUNTY MASK
+# =========================================================
+
+mask = (
+    dem == nodata
+)
+
+dem[mask] = np.nan
 
 
 # =========================================================
@@ -73,9 +90,13 @@ with rasterio.open(DEM_PATH) as src:
 print("\nGenerating slope")
 
 x_gradient, y_gradient = np.gradient(
+
     dem,
+
     30,
+
     30
+
 )
 
 slope = np.degrees(
@@ -85,6 +106,7 @@ slope = np.degrees(
         np.sqrt(
 
             x_gradient**2 +
+
             y_gradient**2
 
         )
@@ -93,10 +115,22 @@ slope = np.degrees(
 
 )
 
+# restore county mask
+
+slope[mask] = -9999
+
+
+# =========================================================
+# SAVE SLOPE
+# =========================================================
+
 profile.update(
 
     dtype=rasterio.float32,
-    count=1
+
+    count=1,
+
+    nodata=-9999
 
 )
 
@@ -125,7 +159,9 @@ with rasterio.open(
 
     )
 
-print(f"Saved: {SLOPE_OUTPUT}")
+print(
+    f"Saved: {SLOPE_OUTPUT}"
+)
 
 
 # =========================================================
@@ -133,6 +169,15 @@ print(f"Saved: {SLOPE_OUTPUT}")
 # =========================================================
 
 print("\nGenerating TWI")
+
+# PySheds does not handle NaN well
+
+dem_pysheds = dem.copy()
+
+dem_pysheds[
+    np.isnan(dem_pysheds)
+] = 0
+
 
 # ---------------------------------------------------------
 # LOAD GRID
@@ -147,39 +192,27 @@ dem_raster = grid.read_raster(
 )
 
 # ---------------------------------------------------------
-# FILL DEPRESSIONS
+# HYDROLOGIC CORRECTIONS
 # ---------------------------------------------------------
 
 flooded_dem = grid.fill_depressions(
     dem_raster
 )
 
-# ---------------------------------------------------------
-# RESOLVE FLATS
-# ---------------------------------------------------------
-
 inflated_dem = grid.resolve_flats(
     flooded_dem
 )
 
-# ---------------------------------------------------------
-# FLOW DIRECTION
-# ---------------------------------------------------------
-
 flowdir = grid.flowdir(
     inflated_dem
 )
-
-# ---------------------------------------------------------
-# FLOW ACCUMULATION
-# ---------------------------------------------------------
 
 acc = grid.accumulation(
     flowdir
 )
 
 # ---------------------------------------------------------
-# TWI CALCULATION
+# TWI
 # ---------------------------------------------------------
 
 slope_radians = np.radians(
@@ -187,14 +220,16 @@ slope_radians = np.radians(
 )
 
 slope_radians[
-    slope_radians == 0
+    slope_radians <= 0
 ] = 0.001
 
 twi = np.log(
 
     (
         acc + 1
-    ) /
+    )
+
+    /
 
     np.tan(
         slope_radians
@@ -202,9 +237,14 @@ twi = np.log(
 
 )
 
-# ---------------------------------------------------------
+# restore county mask
+
+twi[mask] = -9999
+
+
+# =========================================================
 # SAVE TWI
-# ---------------------------------------------------------
+# =========================================================
 
 TWI_OUTPUT = (
     OUTPUT_DIR /
@@ -231,7 +271,9 @@ with rasterio.open(
 
     )
 
-print(f"Saved: {TWI_OUTPUT}")
+print(
+    f"Saved: {TWI_OUTPUT}"
+)
 
 
 # =========================================================

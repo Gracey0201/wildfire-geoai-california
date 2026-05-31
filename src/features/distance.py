@@ -12,6 +12,20 @@ Input:
 Output:
 - distance_to_roads.tif
 - distance_to_settlements.tif
+
+Impact Observatory LULC Classes
+-------------------------------
+1  = Water
+2  = Trees
+4  = Flooded Vegetation
+5  = Crops
+7  = Built Area
+8  = Bare Ground
+9  = Snow/Ice
+11 = Rangeland
+
+Built Area (7) is used as a proxy
+for settlements and developed areas.
 """
 
 from pathlib import Path
@@ -61,11 +75,24 @@ with rasterio.open(
     REFERENCE_RASTER
 ) as src:
 
-    profile = src.profile
+    profile = src.profile.copy()
 
     shape = src.shape
 
     transform = src.transform
+
+    dem = src.read(1)
+
+    nodata = src.nodata
+
+
+# =========================================================
+# COUNTY MASK
+# =========================================================
+
+county_mask = (
+    dem == nodata
+)
 
 
 # =========================================================
@@ -100,8 +127,16 @@ road_raster = rasterize(
 )
 
 distance_roads = distance_transform_edt(
+
     1 - road_raster
+
 ) * 30
+
+
+distance_roads[
+    county_mask
+] = -9999
+
 
 DISTANCE_ROADS_OUTPUT = (
     OUTPUT_DIR /
@@ -109,8 +144,13 @@ DISTANCE_ROADS_OUTPUT = (
 )
 
 profile.update(
+
     dtype=rasterio.float32,
-    count=1
+
+    count=1,
+
+    nodata=-9999
+
 )
 
 with rasterio.open(
@@ -133,7 +173,9 @@ with rasterio.open(
 
     )
 
-print(f"Saved: {DISTANCE_ROADS_OUTPUT}")
+print(
+    f"Saved: {DISTANCE_ROADS_OUTPUT}"
+)
 
 
 # =========================================================
@@ -154,20 +196,33 @@ with rasterio.open(
     lulc = src.read(1)
 
 
+# Impact Observatory LULC
+# Built Area = 7
+
 settlements = np.isin(
 
     lulc,
 
-    [21, 22, 23, 24]
+    [7]
 
-).astype("uint8")
+).astype(
+    "uint8"
+)
 
+print(
+    f"Settlement pixels: {settlements.sum():,}"
+)
 
 distance_settlements = distance_transform_edt(
 
     1 - settlements
 
 ) * 30
+
+
+distance_settlements[
+    county_mask
+] = -9999
 
 
 DISTANCE_SETTLEMENTS_OUTPUT = (
@@ -195,7 +250,9 @@ with rasterio.open(
 
     )
 
-print(f"Saved: {DISTANCE_SETTLEMENTS_OUTPUT}")
+print(
+    f"Saved: {DISTANCE_SETTLEMENTS_OUTPUT}"
+)
 
 
 # =========================================================
