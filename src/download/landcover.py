@@ -1,16 +1,36 @@
 """
 landcover.py
 
-Download NLCD land cover data for
-wildfire susceptibility modeling.
+Download Impact Observatory Annual
+Land Use/Land Cover (IO-LULC)
+data for wildfire susceptibility
+and exposure modeling.
 
-This module:
-- downloads NLCD land cover data
-- loads raster data using stackstac
-- exports raw land cover raster
+Dataset:
+Impact Observatory Annual Land Use/Land Cover
 
-The dataset is intentionally preserved
-in raw form for downstream preprocessing.
+Collection:
+io-lulc-annual-v02
+
+Class Definitions
+-----------------
+1  = Water
+2  = Trees
+4  = Flooded Vegetation
+5  = Crops
+7  = Built Area
+8  = Bare Ground
+9  = Snow/Ice
+11 = Rangeland
+
+Important:
+-----------
+Built Area = 7
+
+This class should be used for:
+- distance_to_settlements
+- developed_land
+- exposure analysis
 """
 
 from pathlib import Path
@@ -37,10 +57,8 @@ with open(CONFIG_PATH, "r") as file:
 
 
 # =========================================================
-# CONFIGURATION SETTINGS
+# SETTINGS
 # =========================================================
-
-REGION_NAME = config["study_area"]["region_name"]
 
 RAW_DATA_DIR = Path(
     config["paths"]["raw_data"]
@@ -49,7 +67,7 @@ RAW_DATA_DIR = Path(
 BOUNDARY_PATH = (
     RAW_DATA_DIR /
     "boundaries" /
-    f"{REGION_NAME}_boundary.geojson"
+    "boundary.geojson"
 )
 
 LANDCOVER_OUTPUT_DIR = (
@@ -64,14 +82,14 @@ LANDCOVER_OUTPUT_DIR.mkdir(
 
 OUTPUT_FILE = (
     LANDCOVER_OUTPUT_DIR /
-    f"{REGION_NAME}_nlcd_landcover.tif"
+    "landcover.tif"
 )
 
 PLANETARY_COMPUTER_STAC = (
     "https://planetarycomputer.microsoft.com/api/stac/v1"
 )
 
-NLCD_COLLECTION = (
+LULC_COLLECTION = (
     "io-lulc-annual-v02"
 )
 
@@ -83,64 +101,41 @@ NLCD_COLLECTION = (
 def download_landcover(
     boundary_path=BOUNDARY_PATH,
     output_file=OUTPUT_FILE,
-    collection=NLCD_COLLECTION,
     diagnostics=True
 ):
     """
-    Download NLCD land cover raster.
-
-    Parameters
-    ----------
-    boundary_path : str or pathlib.Path
-        Study area boundary path.
-
-    output_file : str or pathlib.Path
-        Output raster path.
-
-    collection : str
-        Planetary Computer collection name.
-
-    diagnostics : bool
-        If True, print workflow diagnostics.
-
-    Returns
-    -------
-    landcover : xarray.DataArray
-        Raw land cover raster.
+    Download Impact Observatory
+    Annual Land Use/Land Cover raster.
     """
 
     # -----------------------------------------------------
-    # LOAD STUDY AREA BOUNDARY
+    # LOAD BOUNDARY
     # -----------------------------------------------------
 
     if diagnostics:
+
         print("\n===================================")
-        print("LOADING COUNTY BOUNDARY")
+        print("LOADING STUDY AREA BOUNDARY")
         print("===================================")
 
     boundary = gpd.read_file(
         boundary_path
     )
 
-    print(f"Boundary CRS: {boundary.crs}")
-
-    # -----------------------------------------------------
-    # CONVERT TO WGS84
-    # -----------------------------------------------------
-
     boundary_wgs84 = boundary.to_crs(
         "EPSG:4326"
     )
 
     bbox = tuple(
-        boundary_wgs84.total_bounds.tolist()
+        boundary_wgs84.total_bounds
     )
 
     # -----------------------------------------------------
-    # CONNECT TO PLANETARY COMPUTER
+    # CONNECT TO STAC
     # -----------------------------------------------------
 
     if diagnostics:
+
         print("\n===================================")
         print("CONNECTING TO PLANETARY COMPUTER")
         print("===================================")
@@ -151,28 +146,39 @@ def download_landcover(
     )
 
     # -----------------------------------------------------
-    # SEARCH NLCD
+    # SEARCH DATA
     # -----------------------------------------------------
 
     search = catalog.search(
-        collections=[collection],
+        collections=[LULC_COLLECTION],
         bbox=bbox
     )
 
-    items = list(search.items())
+    items = list(
+        search.items()
+    )
 
     if diagnostics:
+
         print(
-            f"\nLand cover tiles found: "
-            f"{len(items)}"
+            f"\nTiles found: {len(items)}"
+        )
+
+    if len(items) == 0:
+
+        raise ValueError(
+            "No landcover tiles found."
         )
 
     # -----------------------------------------------------
-    # LOAD LAND COVER DATA
+    # LOAD MOSAIC
     # -----------------------------------------------------
 
     if diagnostics:
-        print("\nLoading land cover raster")
+
+        print(
+            "\nLoading landcover raster"
+        )
 
     stack = stackstac.stack(
         items,
@@ -184,30 +190,25 @@ def download_landcover(
         rescale=False
     )
 
-    # -----------------------------------------------------
-    # CREATE MOSAIC
-    # -----------------------------------------------------
-
     landcover = (
         stack
         .max(dim="time")
         .squeeze()
     )
 
-    # -----------------------------------------------------
-    # ASSIGN CRS
-    # -----------------------------------------------------
-
     landcover = landcover.rio.write_crs(
         "EPSG:4326"
     )
 
     # -----------------------------------------------------
-    # SAVE RASTER
+    # SAVE
     # -----------------------------------------------------
 
     if diagnostics:
-        print("\nSaving land cover raster...")
+
+        print(
+            "\nSaving raster..."
+        )
 
     landcover.rio.to_raster(
         output_file,
@@ -221,21 +222,40 @@ def download_landcover(
     # -----------------------------------------------------
 
     if diagnostics:
+
         print("\n===================================")
-        print("LAND COVER DOWNLOAD COMPLETE")
+        print("LANDCOVER DOWNLOAD COMPLETE")
         print("===================================")
 
-        print(f"Output: {output_file}")
+        print(
+            "Dataset: Impact Observatory LULC"
+        )
 
-        print(f"CRS: {landcover.rio.crs}")
+        print(
+            f"Collection: {LULC_COLLECTION}"
+        )
 
-        print(f"Shape: {landcover.shape}")
+        print(
+            f"Output: {output_file}"
+        )
+
+        print(
+            f"CRS: {landcover.rio.crs}"
+        )
+
+        print(
+            f"Shape: {landcover.shape}"
+        )
+
+        print(
+            "\nBuilt Area Class: 7"
+        )
 
     return landcover
 
 
 # =========================================================
-# EXECUTE WORKFLOW
+# EXECUTE
 # =========================================================
 
 if __name__ == "__main__":

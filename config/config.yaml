@@ -20,6 +20,11 @@ project:
   license: MIT
 
 
+api_keys:
+
+  census_api_key: "b08f9a8b1bdafc071dc38c30ce6afe2d08350acf"
+
+
 study_area:
 
   region_name: butte_county
