@@ -4,6 +4,7 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
+**/.ipynb_checkpoints/
 
 # Environment
 .env
@@ -11,11 +12,18 @@ __pycache__/
 # Cache
 cache/
 
-# Data
-data/
+# Raw and intermediate GIS data
+data/raw/
+data/interim/
+data/temp/
+data/processed/
+data/training/
 
-# Outputs
-outputs/
+# Models
+outputs/models/*.pkl
+
+# ArcGIS metadata
+*.aux.xml
 
 # Temporary notebooks
 Untitled.ipynb
