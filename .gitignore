@@ -27,3 +27,6 @@ outputs/models/*.pkl
 
 # Temporary notebooks
 Untitled.ipynb
+
+# Intermediate visualization layers
+outputs/figures/layers/

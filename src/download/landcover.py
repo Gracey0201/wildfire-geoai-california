@@ -45,21 +45,14 @@ from pystac_client import Client as StacClient
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
 
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
-
-# =========================================================
 # SETTINGS
-# =========================================================
-
 RAW_DATA_DIR = Path(
     config["paths"]["raw_data"]
 )
@@ -93,10 +86,7 @@ LULC_COLLECTION = (
     "io-lulc-annual-v02"
 )
 
-
-# =========================================================
 # DOWNLOAD FUNCTION
-# =========================================================
 
 def download_landcover(
     boundary_path=BOUNDARY_PATH,
@@ -108,9 +98,7 @@ def download_landcover(
     Annual Land Use/Land Cover raster.
     """
 
-    # -----------------------------------------------------
     # LOAD BOUNDARY
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -130,9 +118,7 @@ def download_landcover(
         boundary_wgs84.total_bounds
     )
 
-    # -----------------------------------------------------
     # CONNECT TO STAC
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -145,9 +131,7 @@ def download_landcover(
         modifier=planetary_computer.sign_inplace
     )
 
-    # -----------------------------------------------------
     # SEARCH DATA
-    # -----------------------------------------------------
 
     search = catalog.search(
         collections=[LULC_COLLECTION],
@@ -170,9 +154,7 @@ def download_landcover(
             "No landcover tiles found."
         )
 
-    # -----------------------------------------------------
     # LOAD MOSAIC
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -200,10 +182,7 @@ def download_landcover(
         "EPSG:4326"
     )
 
-    # -----------------------------------------------------
     # SAVE
-    # -----------------------------------------------------
-
     if diagnostics:
 
         print(
@@ -217,10 +196,7 @@ def download_landcover(
         BIGTIFF="YES"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
-
     if diagnostics:
 
         print("\n===================================")
@@ -253,10 +229,7 @@ def download_landcover(
 
     return landcover
 
-
-# =========================================================
 # EXECUTE
-# =========================================================
 
 if __name__ == "__main__":
 

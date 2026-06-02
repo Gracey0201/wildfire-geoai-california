@@ -10,11 +10,6 @@ This module:
 - extracts Butte County, California
 - reprojects to project CRS
 - saves boundary to project directory
-
-Project:
-GeoAI-Driven Wildfire Climate Risk Intelligence
-and Community Vulnerability Modeling
-for Butte County, California
 """
 
 from pathlib import Path
@@ -25,21 +20,14 @@ import yaml
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
-
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
 
-# =========================================================
-# CONFIGURATION SETTINGS
-# =========================================================
-
+# SETTINGS CONFIGURATION
 REGION_NAME = config["study_area"]["region_name"]
 
 COUNTY_NAME = config["study_area"]["county_name"]
@@ -71,10 +59,7 @@ COUNTY_BOUNDARY_URL = (
 )
 
 
-# =========================================================
 # DOWNLOAD FUNCTION
-# =========================================================
-
 def download_boundary(
     county_name=COUNTY_NAME,
     target_crs=TARGET_CRS,
@@ -88,10 +73,9 @@ def download_boundary(
     -------
     boundary_gdf : geopandas.GeoDataFrame
     """
-
-    # -----------------------------------------------------
+    
     # DOWNLOAD COUNTY DATA
-    # -----------------------------------------------------
+    
 
     if diagnostics:
         print("\n===================================")
@@ -102,17 +86,13 @@ def download_boundary(
         COUNTY_BOUNDARY_URL
     )
 
-    # -----------------------------------------------------
     # FILTER CALIFORNIA
-    # -----------------------------------------------------
 
     california = counties[
         counties["STATEFP"] == "06"
     ]
 
-    # -----------------------------------------------------
     # EXTRACT BUTTE COUNTY
-    # -----------------------------------------------------
 
     if diagnostics:
         print(f"\nExtracting: {county_name} County")
@@ -126,10 +106,9 @@ def download_boundary(
             f"County not found: {county_name}"
         )
 
-    # -----------------------------------------------------
-    # REPROJECT
-    # -----------------------------------------------------
 
+    # REPROJECT
+   
     if diagnostics:
         print(f"\nReprojecting to: {target_crs}")
 
@@ -137,9 +116,7 @@ def download_boundary(
         target_crs
     )
 
-    # -----------------------------------------------------
     # SAVE
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nSaving boundary dataset...")
@@ -149,9 +126,7 @@ def download_boundary(
         driver="GeoJSON"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\n===================================")
@@ -166,9 +141,7 @@ def download_boundary(
     return boundary_gdf
 
 
-# =========================================================
 # EXECUTE WORKFLOW
-# =========================================================
 
 if __name__ == "__main__":
 

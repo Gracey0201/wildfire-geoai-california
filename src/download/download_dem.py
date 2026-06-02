@@ -9,11 +9,6 @@ This module:
 - searches Copernicus DEM tiles
 - mosaics DEM data
 - exports DEM raster for preprocessing
-
-Project:
-GeoAI-Driven Wildfire Climate Risk Intelligence
-and Community Vulnerability Modeling
-for Butte County, California
 """
 
 from pathlib import Path
@@ -28,21 +23,14 @@ from pystac_client import Client as StacClient
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
-
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
 
-# =========================================================
 # CONFIGURATION SETTINGS
-# =========================================================
-
 REGION_NAME = config["study_area"]["region_name"]
 
 COUNTY_NAME = config["study_area"]["county_name"]
@@ -76,11 +64,7 @@ PLANETARY_COMPUTER_STAC = (
     "https://planetarycomputer.microsoft.com/api/stac/v1"
 )
 
-
-# =========================================================
 # DEM DOWNLOAD FUNCTION
-# =========================================================
-
 def download_dem(
     boundary_path=BOUNDARY_PATH,
     output_file=OUTPUT_FILE,
@@ -88,10 +72,7 @@ def download_dem(
     diagnostics=True
 ):
 
-    # -----------------------------------------------------
     # LOAD COUNTY BOUNDARY
-    # -----------------------------------------------------
-
     if diagnostics:
         print("\n===================================")
         print("LOADING COUNTY BOUNDARY")
@@ -104,18 +85,13 @@ def download_dem(
     print(f"County: {COUNTY_NAME}")
     print(f"Boundary CRS: {boundary.crs}")
 
-    # -----------------------------------------------------
     # CONVERT TO WGS84
-    # -----------------------------------------------------
-
     boundary_wgs84 = boundary.to_crs(
         "EPSG:4326"
     )
 
-    # -----------------------------------------------------
     # CONNECT TO STAC
-    # -----------------------------------------------------
-
+    
     if diagnostics:
         print("\n===================================")
         print("CONNECTING TO PLANETARY COMPUTER")
@@ -126,9 +102,7 @@ def download_dem(
         modifier=planetary_computer.sign_inplace
     )
 
-    # -----------------------------------------------------
     # SEARCH DEM
-    # -----------------------------------------------------
 
     search = catalog.search(
         collections=[collection],
@@ -142,9 +116,7 @@ def download_dem(
     if diagnostics:
         print(f"\nDEM tiles found: {len(items)}")
 
-    # -----------------------------------------------------
     # LOAD DEM
-    # -----------------------------------------------------
 
     stack = stackstac.stack(
         items,
@@ -158,27 +130,20 @@ def download_dem(
         rescale=False
     )
 
-    # -----------------------------------------------------
     # MOSAIC DEM
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nCreating DEM mosaic")
 
     dem = stack.max(dim="time").squeeze()
 
-    # -----------------------------------------------------
     # ASSIGN CRS
-    # -----------------------------------------------------
-
     dem = dem.rio.write_crs(
         "EPSG:4326"
     )
 
-    # -----------------------------------------------------
     # SAVE DEM
-    # -----------------------------------------------------
-
+    
     if diagnostics:
         print("\nSaving DEM raster...")
 
@@ -189,10 +154,7 @@ def download_dem(
         BIGTIFF="YES"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
-
     if diagnostics:
         print("\n===================================")
         print("DEM DOWNLOAD COMPLETE")
@@ -204,10 +166,7 @@ def download_dem(
 
     return dem
 
-
-# =========================================================
 # EXECUTE
-# =========================================================
 
 if __name__ == "__main__":
 

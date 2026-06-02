@@ -28,31 +28,20 @@ import yaml
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
-
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
-
-# =========================================================
 # CONFIGURATION SETTINGS
-# =========================================================
-
 REGION_NAME = config["study_area"]["region_name"]
 
 RAW_DATA_DIR = Path(
     config["paths"]["raw_data"]
 )
 
-# ---------------------------------------------------------
 # OUTPUT DIRECTORY
-# ---------------------------------------------------------
-
 OUTPUT_DIR = (
     RAW_DATA_DIR /
     "population"
@@ -63,35 +52,28 @@ OUTPUT_DIR.mkdir(
     exist_ok=True
 )
 
-# ---------------------------------------------------------
 # OUTPUT FILE
-# ---------------------------------------------------------
-
 OUTPUT_FILE = (
     OUTPUT_DIR /
     f"{REGION_NAME}_population.geojson"
 )
 
-# ---------------------------------------------------------
 # ACS SETTINGS
-# ---------------------------------------------------------
-
 ACS_YEAR = "2022"
 
 STATE_FIPS = "06"     # California
 COUNTY_FIPS = "007"   # Butte County
 
-# ---------------------------------------------------------
 # CENSUS API KEY
-# ---------------------------------------------------------
+
+# Obtain a free Census API key:
+# https://api.census.gov/data/key_signup.html
 
 CENSUS_API_KEY = (
-    "b08f9a8b1bdafc071dc38c30ce6afe2d08350acf"
+    "YOUR_CENSUS_API_KEY"
 )
 
-# ---------------------------------------------------------
 # TRACT SHAPEFILE URL
-# ---------------------------------------------------------
 
 TRACT_URL = (
     "https://www2.census.gov/geo/tiger/"
@@ -99,11 +81,7 @@ TRACT_URL = (
     "tl_2022_06_tract.zip"
 )
 
-
-# =========================================================
 # DOWNLOAD POPULATION DATA
-# =========================================================
-
 def download_population(
     diagnostics=True
 ):
@@ -121,9 +99,7 @@ def download_population(
         Population exposure layer.
     """
 
-    # -----------------------------------------------------
     # START WORKFLOW
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -131,9 +107,7 @@ def download_population(
         print("DOWNLOADING POPULATION DATA")
         print("===================================")
 
-    # -----------------------------------------------------
     # DOWNLOAD TRACTS
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nDownloading census tracts")
@@ -142,23 +116,17 @@ def download_population(
         TRACT_URL
     )
 
-    # -----------------------------------------------------
     # FILTER TO BUTTE COUNTY
-    # -----------------------------------------------------
 
     tracts = tracts[
         tracts["COUNTYFP"] == COUNTY_FIPS
     ]
 
-    # -----------------------------------------------------
     # ACS VARIABLE
-    # -----------------------------------------------------
 
     variable = "B01003_001E"
 
-    # -----------------------------------------------------
     # BUILD URL
-    # -----------------------------------------------------
 
     url = (
         f"https://api.census.gov/data/"
@@ -176,9 +144,7 @@ def download_population(
         print("\nACS URL:")
         print(url)
 
-    # -----------------------------------------------------
     # REQUEST HEADERS
-    # -----------------------------------------------------
 
     headers = {
 
@@ -187,9 +153,7 @@ def download_population(
 
     }
 
-    # -----------------------------------------------------
     # REQUEST DATA
-    # -----------------------------------------------------
 
     response = requests.get(
         url,
@@ -197,9 +161,7 @@ def download_population(
         timeout=60
     )
 
-    # -----------------------------------------------------
     # DEBUG RESPONSE
-    # -----------------------------------------------------
 
     print("\nSTATUS CODE:")
     print(response.status_code)
@@ -207,30 +169,22 @@ def download_population(
     print("\nFULL RESPONSE:")
     print(response.text[:1000])
 
-    # -----------------------------------------------------
     # CHECK STATUS
-    # -----------------------------------------------------
 
     response.raise_for_status()
 
-    # -----------------------------------------------------
     # CONVERT TO JSON
-    # -----------------------------------------------------
 
     data_json = response.json()
 
-    # -----------------------------------------------------
     # CREATE DATAFRAME
-    # -----------------------------------------------------
 
     population_df = pd.DataFrame(
         data_json[1:],
         columns=data_json[0]
     )
 
-    # -----------------------------------------------------
     # CREATE GEOID
-    # -----------------------------------------------------
 
     population_df["GEOID"] = (
 
@@ -240,9 +194,7 @@ def download_population(
 
     )
 
-    # -----------------------------------------------------
     # RENAME COLUMN
-    # -----------------------------------------------------
 
     population_df = population_df.rename(
         columns={
@@ -251,18 +203,13 @@ def download_population(
         }
     )
 
-    # -----------------------------------------------------
     # CONVERT TO NUMERIC
-    # -----------------------------------------------------
-
     population_df["population"] = pd.to_numeric(
         population_df["population"],
         errors="coerce"
     )
 
-    # -----------------------------------------------------
     # JOIN TO TRACTS
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nJoining population to tracts")
@@ -273,18 +220,15 @@ def download_population(
         how="left"
     )
 
-    # -----------------------------------------------------
+
     # PROJECT TO EPSG:3310
-    # -----------------------------------------------------
 
     population_gdf = (
         population_gdf
         .to_crs("EPSG:3310")
     )
 
-    # -----------------------------------------------------
     # AREA
-    # -----------------------------------------------------
 
     population_gdf["area_km2"] = (
 
@@ -294,9 +238,7 @@ def download_population(
 
     )
 
-    # -----------------------------------------------------
     # POPULATION DENSITY
-    # -----------------------------------------------------
 
     population_gdf["population_density"] = (
 
@@ -306,9 +248,7 @@ def download_population(
 
     )
 
-    # -----------------------------------------------------
     # KEEP IMPORTANT COLUMNS
-    # -----------------------------------------------------
 
     keep_columns = [
 
@@ -329,9 +269,7 @@ def download_population(
         ]
     )
 
-    # -----------------------------------------------------
     # SAVE OUTPUT
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nSaving population layer")
@@ -341,9 +279,7 @@ def download_population(
         driver="GeoJSON"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -369,9 +305,7 @@ def download_population(
     return population_gdf
 
 
-# =========================================================
 # EXECUTE WORKFLOW
-# =========================================================
 
 if __name__ == "__main__":
 
