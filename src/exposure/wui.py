@@ -26,9 +26,7 @@ from scipy.ndimage import distance_transform_edt
 warnings.filterwarnings("ignore")
 
 
-# =========================================================
 # PATHS
-# =========================================================
 
 FEATURE_DIR = Path(
     "data/features"
@@ -54,9 +52,7 @@ OUTPUT_PATH = (
 )
 
 
-# =========================================================
 # LOAD DEVELOPED LAND
-# =========================================================
 
 print(
     "\nLoading developed land"
@@ -73,10 +69,7 @@ with rasterio.open(
     developed_nodata = src.nodata
 
 
-# =========================================================
 # LOAD LANDCOVER
-# =========================================================
-
 print(
     "\nLoading landcover"
 )
@@ -90,9 +83,7 @@ with rasterio.open(
     lc_nodata = src.nodata
 
 
-# =========================================================
 # VEGETATION MASK
-# =========================================================
 
 print(
     "\nCreating vegetation mask"
@@ -129,10 +120,7 @@ if lc_nodata is not None:
         landcover == lc_nodata
     ] = 0
 
-
-# =========================================================
 # DISTANCE TO VEGETATION
-# =========================================================
 
 print(
     "\nCalculating distance to vegetation"
@@ -144,10 +132,7 @@ distance = distance_transform_edt(
 
 ) * 30
 
-
-# =========================================================
 # WUI DEFINITION
-# =========================================================
 
 print(
     "\nCreating WUI raster"
@@ -178,9 +163,7 @@ wui = np.where(
 )
 
 
-# =========================================================
 # PRESERVE NODATA
-# =========================================================
 
 if developed_nodata is not None:
 
@@ -189,9 +172,7 @@ if developed_nodata is not None:
     ] = 255
 
 
-# =========================================================
 # SAVE OUTPUT
-# =========================================================
 
 profile.update(
 
@@ -223,9 +204,7 @@ print(
 )
 
 
-# =========================================================
 # SUMMARY
-# =========================================================
 
 wui_pixels = np.sum(
     wui == 1

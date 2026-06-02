@@ -22,20 +22,14 @@ import yaml
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
-
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
 
-# =========================================================
 # CONFIGURATION SETTINGS
-# =========================================================
 
 REGION_NAME = config["study_area"]["region_name"]
 
@@ -62,10 +56,7 @@ OUTPUT_FILE = (
     f"{REGION_NAME}_wildfire_history.geojson"
 )
 
-# ---------------------------------------------------------
 # TEMP DIRECTORY
-# ---------------------------------------------------------
-
 TEMP_DIR = Path(
     "data/temp"
 )
@@ -80,20 +71,14 @@ GEOJSON_PATH = (
     "calfire_fire_perimeters.geojson"
 )
 
-# ---------------------------------------------------------
 # CAL FIRE DATASET
-# ---------------------------------------------------------
-
 CALFIRE_URL = (
     "https://gis.data.ca.gov/datasets/"
     "CALFIRE-Forestry::california-fire-perimeters-1950.geojson"
 )
 
 
-# =========================================================
 # DOWNLOAD FUNCTION
-# =========================================================
-
 def download_wildfire_history(
     wildfire_url=CALFIRE_URL,
     output_file=OUTPUT_FILE,
@@ -119,9 +104,7 @@ def download_wildfire_history(
         Raw wildfire perimeter dataset.
     """
 
-    # -----------------------------------------------------
     # DOWNLOAD DATASET
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\n===================================")
@@ -147,10 +130,7 @@ def download_wildfire_history(
         ):
             file.write(chunk)
 
-    # -----------------------------------------------------
     # READ DATASET
-    # -----------------------------------------------------
-
     wildfire_gdf = gpd.read_file(
         GEOJSON_PATH
     )
@@ -161,9 +141,7 @@ def download_wildfire_history(
             f"{len(wildfire_gdf)}"
         )
 
-    # -----------------------------------------------------
     # FILTER YEARS
-    # -----------------------------------------------------
 
     possible_year_fields = [
         "YEAR_",
@@ -208,9 +186,7 @@ def download_wildfire_history(
             )
         ]
 
-    # -----------------------------------------------------
     # SAVE DATASET
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nSaving wildfire dataset...")
@@ -220,9 +196,7 @@ def download_wildfire_history(
         driver="GeoJSON"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\n===================================")
@@ -240,10 +214,8 @@ def download_wildfire_history(
 
     return wildfire_gdf
 
-
-# =========================================================
+    
 # EXECUTE WORKFLOW
-# =========================================================
 
 if __name__ == "__main__":
 

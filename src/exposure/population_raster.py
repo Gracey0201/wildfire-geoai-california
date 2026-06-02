@@ -24,9 +24,7 @@ from rasterio.features import rasterize
 warnings.filterwarnings("ignore")
 
 
-# =========================================================
 # PATHS
-# =========================================================
 
 POPULATION_PATH = Path(
     "data/raw/population/population.geojson"
@@ -50,11 +48,7 @@ OUTPUT_PATH = (
     "population_density.tif"
 )
 
-
-# =========================================================
 # LOAD REFERENCE GRID
-# =========================================================
-
 print("\nLoading reference raster")
 
 with rasterio.open(
@@ -71,19 +65,13 @@ with rasterio.open(
 
     nodata = src.nodata
 
-
-# =========================================================
 # COUNTY MASK
-# =========================================================
 
 county_mask = (
     dem == nodata
 )
 
-
-# =========================================================
 # LOAD POPULATION DATA
-# =========================================================
 
 print("\nLoading population polygons")
 
@@ -106,10 +94,7 @@ if required_field not in population.columns:
     )
 
 
-# =========================================================
 # RASTERIZE POPULATION DENSITY
-# =========================================================
-
 print(
     "\nRasterizing population density"
 )
@@ -144,18 +129,14 @@ population_raster = rasterize(
 )
 
 
-# =========================================================
 # APPLY COUNTY MASK
-# =========================================================
 
 population_raster[
     county_mask
 ] = -9999
 
 
-# =========================================================
 # UPDATE PROFILE
-# =========================================================
 
 profile.update(
 
@@ -168,9 +149,7 @@ profile.update(
 )
 
 
-# =========================================================
 # SAVE OUTPUT
-# =========================================================
 
 with rasterio.open(
 
@@ -196,11 +175,7 @@ print(
     f"Saved: {OUTPUT_PATH}"
 )
 
-
-# =========================================================
 # SUMMARY
-# =========================================================
-
 valid = population_raster[
     population_raster != -9999
 ]

@@ -22,20 +22,14 @@ import yaml
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
 
 CONFIG_PATH = "config/config.yaml"
 
 with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
-
-# =========================================================
 # CONFIGURATION SETTINGS
-# =========================================================
 
 REGION_NAME = config["study_area"]["region_name"]
 
@@ -43,19 +37,14 @@ RAW_DATA_DIR = Path(
     config["paths"]["raw_data"]
 )
 
-# ---------------------------------------------------------
 # INPUT BOUNDARY
-# ---------------------------------------------------------
-
 BOUNDARY_PATH = (
     RAW_DATA_DIR /
     "boundaries" /
     f"{REGION_NAME}_boundary.geojson"
 )
 
-# ---------------------------------------------------------
 # OUTPUT DIRECTORY
-# ---------------------------------------------------------
 
 OUTPUT_DIR = (
     RAW_DATA_DIR /
@@ -73,9 +62,7 @@ OUTPUT_FILE = (
 )
 
 
-# =========================================================
 # DOWNLOAD ROAD DATA
-# =========================================================
 
 def download_roads(
     boundary_path=BOUNDARY_PATH,
@@ -102,9 +89,7 @@ def download_roads(
         Road network dataset.
     """
 
-    # -----------------------------------------------------
     # LOAD STUDY AREA
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -118,25 +103,19 @@ def download_roads(
 
     print(f"\nBoundary CRS: {boundary.crs}")
 
-    # -----------------------------------------------------
     # CONVERT TO WGS84
-    # -----------------------------------------------------
 
     boundary_wgs84 = boundary.to_crs(
         "EPSG:4326"
     )
 
-    # -----------------------------------------------------
     # EXTRACT GEOMETRY
-    # -----------------------------------------------------
 
     polygon = (
         boundary_wgs84.geometry.iloc[0]
     )
 
-    # -----------------------------------------------------
     # DOWNLOAD ROAD NETWORK
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -149,9 +128,7 @@ def download_roads(
         network_type="drive"
     )
 
-    # -----------------------------------------------------
     # CONVERT TO GEODATAFRAME
-    # -----------------------------------------------------
 
     roads_gdf = ox.graph_to_gdfs(
         graph,
@@ -159,9 +136,7 @@ def download_roads(
         edges=True
     )
 
-    # -----------------------------------------------------
     # KEEP IMPORTANT COLUMNS
-    # -----------------------------------------------------
 
     keep_columns = [
         "highway",
@@ -183,17 +158,13 @@ def download_roads(
         existing_columns
     ]
 
-    # -----------------------------------------------------
     # RESET INDEX
-    # -----------------------------------------------------
 
     roads_gdf = roads_gdf.reset_index(
         drop=True
     )
 
-    # -----------------------------------------------------
     # SAVE OUTPUT
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nSaving road dataset")
@@ -203,9 +174,7 @@ def download_roads(
         driver="GeoJSON"
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -231,9 +200,7 @@ def download_roads(
     return roads_gdf
 
 
-# =========================================================
 # EXECUTE WORKFLOW
-# =========================================================
 
 if __name__ == "__main__":
 

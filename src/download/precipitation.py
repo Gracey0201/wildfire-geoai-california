@@ -30,9 +30,7 @@ import yaml
 warnings.filterwarnings("ignore")
 
 
-# =========================================================
 # LOAD CONFIGURATION
-# =========================================================
 
 CONFIG_PATH = "config/config.yaml"
 
@@ -40,10 +38,7 @@ with open(CONFIG_PATH, "r") as file:
     config = yaml.safe_load(file)
 
 
-# =========================================================
 # CONFIGURATION SETTINGS
-# =========================================================
-
 REGION_NAME = config["study_area"]["region_name"]
 
 RAW_DATA_DIR = Path(
@@ -65,27 +60,19 @@ OUTPUT_FILE = (
     f"{REGION_NAME}_precipitation.tif"
 )
 
-# ---------------------------------------------------------
 # LIVNEH DATASET BASE URL
-# ---------------------------------------------------------
-
 BASE_URL = (
     "https://albers.cnr.berkeley.edu/"
     "data/scripps/livneh_vic-output/"
 )
 
-# ---------------------------------------------------------
 # YEARS TO DOWNLOAD
-# ---------------------------------------------------------
-
 YEARS = list(
     range(2000, 2014)
 )
 
 
-# =========================================================
 # DOWNLOAD FILES
-# =========================================================
 
 def download_precip_files(
     output_dir=CLIMATE_DIR,
@@ -109,9 +96,7 @@ def download_precip_files(
             output_dir / filename
         )
 
-        # -------------------------------------------------
         # SKIP EXISTING FILES
-        # -------------------------------------------------
 
         if output_path.exists():
 
@@ -127,9 +112,7 @@ def download_precip_files(
 
             continue
 
-        # -------------------------------------------------
         # DOWNLOAD FILE
-        # -------------------------------------------------
 
         if diagnostics:
             print(
@@ -160,11 +143,7 @@ def download_precip_files(
 
     return downloaded_files
 
-
-# =========================================================
 # PROCESS PRECIPITATION
-# =========================================================
-
 def download_precipitation(
     diagnostics=True
 ):
@@ -172,9 +151,7 @@ def download_precipitation(
     Download and process precipitation data.
     """
 
-    # -----------------------------------------------------
     # START WORKFLOW
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -182,15 +159,11 @@ def download_precipitation(
         print("DOWNLOADING PRECIPITATION DATA")
         print("===================================")
 
-    # -----------------------------------------------------
     # DOWNLOAD FILES
-    # -----------------------------------------------------
 
     precip_files = download_precip_files()
 
-    # -----------------------------------------------------
     # PROCESS FILES
-    # -----------------------------------------------------
 
     annual_means = []
 
@@ -203,21 +176,15 @@ def download_precipitation(
         if diagnostics:
             print(f"\nProcessing year: {year}")
 
-        # -------------------------------------------------
         # OPEN DATASET
-        # -------------------------------------------------
 
         ds = xr.open_dataset(file)
 
-        # -------------------------------------------------
         # EXTRACT PRECIP VARIABLE
-        # -------------------------------------------------
 
         precipitation = ds["precip"]
 
-        # -------------------------------------------------
         # COMPUTE ANNUAL MEAN
-        # -------------------------------------------------
 
         annual_mean = precipitation.mean(
             dim="Time"
@@ -227,36 +194,27 @@ def download_precipitation(
             annual_mean
         )
 
-    # -----------------------------------------------------
     # STACK YEARS
-    # -----------------------------------------------------
-
     precipitation_stack = xr.concat(
         annual_means,
         dim="year"
     )
 
-    # -----------------------------------------------------
     # COMPUTE LONG-TERM MEAN
-    # -----------------------------------------------------
 
     precipitation_mean = (
         precipitation_stack
         .mean(dim="year")
     )
 
-    # -----------------------------------------------------
     # ASSIGN CRS
-    # -----------------------------------------------------
 
     precipitation_mean = (
         precipitation_mean
         .rio.write_crs("EPSG:4326")
     )
 
-    # -----------------------------------------------------
     # SAVE OUTPUT
-    # -----------------------------------------------------
 
     if diagnostics:
         print("\nSaving precipitation raster")
@@ -267,9 +225,7 @@ def download_precipitation(
         tiled=True
     )
 
-    # -----------------------------------------------------
     # SUMMARY
-    # -----------------------------------------------------
 
     if diagnostics:
 
@@ -292,9 +248,7 @@ def download_precipitation(
     return precipitation_mean
 
 
-# =========================================================
 # EXECUTE WORKFLOW
-# =========================================================
 
 if __name__ == "__main__":
 

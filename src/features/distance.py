@@ -40,9 +40,7 @@ from scipy.ndimage import distance_transform_edt
 warnings.filterwarnings("ignore")
 
 
-# =========================================================
 # PATHS
-# =========================================================
 
 ALIGNED_DIR = Path(
     "data/processed/aligned"
@@ -62,9 +60,7 @@ OUTPUT_DIR.mkdir(
 )
 
 
-# =========================================================
 # REFERENCE RASTER
-# =========================================================
 
 REFERENCE_RASTER = (
     ALIGNED_DIR /
@@ -86,18 +82,14 @@ with rasterio.open(
     nodata = src.nodata
 
 
-# =========================================================
 # COUNTY MASK
-# =========================================================
 
 county_mask = (
     dem == nodata
 )
 
 
-# =========================================================
 # DISTANCE TO ROADS
-# =========================================================
 
 print("\nGenerating distance to roads")
 
@@ -178,9 +170,7 @@ print(
 )
 
 
-# =========================================================
 # DISTANCE TO SETTLEMENTS
-# =========================================================
 
 print("\nGenerating distance to settlements")
 
@@ -255,9 +245,7 @@ print(
 )
 
 
-# =========================================================
 # COMPLETE
-# =========================================================
 
 print("\n===================================")
 print("DISTANCE FEATURES COMPLETE")

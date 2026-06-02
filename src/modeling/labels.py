@@ -22,10 +22,7 @@ import numpy as np
 import rasterio
 from rasterio.features import rasterize
 
-
-# =========================================================
 # PATHS
-# =========================================================
 
 PROJECT_ROOT = Path.cwd()
 
@@ -61,10 +58,7 @@ OUTPUT_PATH = (
     "labels.tif"
 )
 
-
-# =========================================================
 # LOAD WILDFIRE POLYGONS
-# =========================================================
 
 print("\nLoading wildfire polygons")
 
@@ -76,10 +70,7 @@ print(
     f"Wildfire polygons: {len(wildfire)}"
 )
 
-
-# =========================================================
 # LOAD REFERENCE RASTER
-# =========================================================
 
 print("\nLoading reference raster")
 
@@ -101,9 +92,7 @@ print(f"CRS: {crs}")
 print(f"Shape: ({height}, {width})")
 
 
-# =========================================================
 # MATCH CRS
-# =========================================================
 
 if wildfire.crs != crs:
 
@@ -111,10 +100,7 @@ if wildfire.crs != crs:
         crs
     )
 
-
-# =========================================================
 # RASTERIZE
-# =========================================================
 
 print("\nRasterizing wildfire history")
 
@@ -146,10 +132,7 @@ labels = rasterize(
 
 )
 
-
-# =========================================================
 # SAVE LABELS
-# =========================================================
 
 profile.update(
 
@@ -180,10 +163,7 @@ print(
     f"\nSaved: {OUTPUT_PATH}"
 )
 
-
-# =========================================================
 # SUMMARY
-# =========================================================
 
 unique, counts = np.unique(
     labels,

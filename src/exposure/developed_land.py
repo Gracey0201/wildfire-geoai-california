@@ -33,10 +33,7 @@ import rasterio
 
 warnings.filterwarnings("ignore")
 
-
-# =========================================================
 # PATHS
-# =========================================================
 
 INPUT_DIR = Path(
     "data/processed/aligned"
@@ -61,11 +58,7 @@ OUTPUT_PATH = (
     "developed_land.tif"
 )
 
-
-# =========================================================
 # LOAD LANDCOVER
-# =========================================================
-
 print("\nLoading land cover raster")
 
 with rasterio.open(
@@ -79,10 +72,7 @@ with rasterio.open(
     nodata = src.nodata
 
 
-# =========================================================
 # CREATE DEVELOPED LAND MASK
-# =========================================================
-
 print("\nCreating developed land raster")
 
 # Impact Observatory LULC
@@ -98,10 +88,7 @@ developed = np.isin(
     np.uint8
 )
 
-
-# =========================================================
 # PRESERVE NODATA
-# =========================================================
 
 if nodata is not None:
 
@@ -110,9 +97,7 @@ if nodata is not None:
     ] = 255
 
 
-# =========================================================
 # UPDATE PROFILE
-# =========================================================
 
 profile.update(
 
@@ -125,10 +110,7 @@ profile.update(
 )
 
 
-# =========================================================
 # SAVE OUTPUT
-# =========================================================
-
 with rasterio.open(
 
     OUTPUT_PATH,
@@ -151,10 +133,7 @@ print(
     f"Saved: {OUTPUT_PATH}"
 )
 
-
-# =========================================================
 # SUMMARY
-# =========================================================
 
 developed_pixels = np.sum(
     developed == 1
