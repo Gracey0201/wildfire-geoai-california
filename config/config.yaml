@@ -22,7 +22,7 @@ project:
 
 api_keys:
 
-  census_api_key: "b08f9a8b1bdafc071dc38c30ce6afe2d08350acf"
+  census_api_key: "YOUR_CENSUS_API_KEY"
 
 
 study_area:
