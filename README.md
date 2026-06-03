@@ -264,10 +264,6 @@ Overall, the results demonstrate that wildfire risk within Butte County is spati
 
 This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
 
-## Census API Configuration
-
-This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
-
 ### Obtain a Census API Key
 
 Request a free Census API key:
