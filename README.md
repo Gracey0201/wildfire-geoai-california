@@ -230,8 +230,6 @@ Feature importance analysis identified precipitation, elevation, land cover, slo
 
 The GeoAI framework successfully identified spatial patterns of wildfire susceptibility, exposure, and integrated risk across Butte County, California.
 
-## Results
-
 ### Wildfire Susceptibility Assessment
 
 The Random Forest model successfully identified spatial patterns of wildfire susceptibility across Butte County, California. Areas classified as **high** and **very high susceptibility** were concentrated primarily in the eastern, southeastern, and central foothill and mountainous regions of the county. Elevated susceptibility was particularly evident around the communities of **Paradise**, **Magalia**, and portions of the Sierra Nevada foothills, whereas the western agricultural valley regions surrounding **Chico** and **Oroville** were characterized predominantly by low-susceptibility classes.
@@ -266,38 +264,52 @@ Overall, the results demonstrate that wildfire risk within Butte County is spati
 
 This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
 
-Obtain a Census API Key
+## Census API Configuration
+
+This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
+
+### Obtain a Census API Key
 
 Request a free Census API key:
 
-Census API Key Signup
+* [Census API Key Signup](https://api.census.gov/data/key_signup.html)
 
-Configure the API Key
+### Configure the API Key
 
 Update the following files:
 
+```text
 config/config.yaml
 src/download/population.py
 src/download/vulnerability.py
+```
 
 Replace:
 
+```python
 CENSUS_API_KEY = "YOUR_CENSUS_API_KEY"
+```
 
 with your personal Census API key.
 
-Download Census Data
+### Download Census Data
 
 Population data:
 
+```bash
 python src/download/population.py
+```
 
 Vulnerability data:
 
+```bash
 python src/download/vulnerability.py
-Documentation
+```
 
-Census Developers Documentation
+### Documentation
+
+* [Census Developers Documentation](https://www.census.gov/data/developers/data-sets.html)
+
 
 ### Census API Documentation
 
