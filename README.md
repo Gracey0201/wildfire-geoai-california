@@ -182,7 +182,6 @@ Exposure was modeled using:
 
 * Population Density
 * Wildland–Urban Interface (WUI)
-* Developed Land Indicators
 
 The exposure surface identifies populations and infrastructure potentially affected by wildfire events.
 
