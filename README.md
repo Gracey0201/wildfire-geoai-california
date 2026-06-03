@@ -77,33 +77,13 @@ Confirm that required packages are available:
 python -c "import geopandas, rasterio, sklearn; print('Installation successful')"
 ```
 
-### Configure Census API Access
-
-This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic variables used in both the exposure and vulnerability assessments.
-
-Obtain a free Census API key:
-
-https://api.census.gov/data/key_signup.html
-
-Then update:
-
-```text
-src/download/population.py
-
-src/download/vulnerability.py
-```
-
-with:
-
-```python
-CENSUS_API_KEY = "YOUR_CENSUS_API_KEY"
-```
-
 ### Reproduce the Analysis
 
 The complete workflow can be executed using the Python scripts described in the Workflow Execution section below.
 
 Jupyter notebooks are provided for model evaluation, visualization, interpretation, and quality assurance of results.
+
+---
 
 
 ## Study Area
@@ -246,79 +226,84 @@ The Random Forest wildfire susceptibility model achieved:
 Feature importance analysis identified precipitation, elevation, land cover, slope, and proximity to settlements as key wildfire predictors.
 
 ---
-## Key Findings
+## Results
 
 The GeoAI framework successfully identified spatial patterns of wildfire susceptibility, exposure, and integrated risk across Butte County, California.
 
-### Wildfire Susceptibility
+## Results
 
-Wildfire susceptibility was concentrated primarily within the mountainous, forested, and upland regions of central, eastern, northeastern, and southeastern Butte County. Lower susceptibility values were generally observed within the flatter western valley areas. These patterns suggest that topography, vegetation characteristics, precipitation, and proximity to human activities play important roles in wildfire occurrence.
+### Wildfire Susceptibility Assessment
 
-### Wildfire Exposure
+The Random Forest model successfully identified spatial patterns of wildfire susceptibility across Butte County, California. Areas classified as **high** and **very high susceptibility** were concentrated primarily in the eastern, southeastern, and central foothill and mountainous regions of the county. Elevated susceptibility was particularly evident around the communities of **Paradise**, **Magalia**, and portions of the Sierra Nevada foothills, whereas the western agricultural valley regions surrounding **Chico** and **Oroville** were characterized predominantly by low-susceptibility classes.
 
-Wildfire exposure was concentrated within developed areas, transportation corridors, and Wildland–Urban Interface (WUI) zones. Statistical analysis indicated a mean exposure index of 0.119 and a median value of 0.106, suggesting that most locations experience relatively low exposure while a smaller number of areas contain concentrated populations, infrastructure, and assets that may be affected by wildfire events.
+Model evaluation demonstrated excellent predictive performance, with a mean five-fold cross-validation ROC-AUC score of **0.988**, indicating a strong ability to distinguish wildfire-prone from non-prone locations. The low variability among folds suggests that the model generalized consistently across the study area.
 
-### Integrated Wildfire Risk
+Feature importance analysis revealed that **precipitation** was the most influential predictor, followed by **elevation (DEM)**, **land cover**, and **slope**. Variables representing proximity to settlements and roads exhibited moderate influence, while topographic wetness index (TWI) contributed comparatively less to model performance. These findings are consistent with previous studies demonstrating that climatic conditions, vegetation characteristics, and topographic factors strongly influence wildfire occurrence and spread across western North America (Jain et al., 2020). The importance of precipitation and elevation within the model further supports evidence that climate variability, fuel moisture conditions, and terrain-related processes play a critical role in shaping wildfire susceptibility patterns throughout California landscapes (Abatzoglou & Williams, 2016). Furthermore, recent climate assessments indicate that increasing temperatures, altered precipitation regimes, and prolonged drought conditions are expected to exacerbate wildfire hazards across many regions of the western United States (IPCC, 2022).
 
-The integrated wildfire risk assessment revealed that risk is not uniformly distributed across Butte County. Elevated risk was concentrated primarily within central and eastern portions of the county where wildfire susceptibility, exposure, and community vulnerability overlap. In contrast, much of the western valley region exhibited relatively low wildfire risk due to lower modeled wildfire susceptibility despite the presence of developed land.
+### Wildfire Exposure Assessment
 
-### Implications for Climate Resilience
+The wildfire exposure assessment identified locations where populations and built environments are most likely to be affected by wildfire hazards. Exposure levels were generally highest within and around the urbanized and wildland–urban interface (WUI) environments surrounding **Chico**, **Paradise**, **Magalia**, and **Oroville**. Moderate to high exposure zones were concentrated near developed areas where residential communities, transportation infrastructure, and human activities intersect with wildfire-prone landscapes.
 
-The results demonstrate the value of integrating machine learning, geospatial analytics, exposure assessment, and socioeconomic vulnerability indicators into a unified wildfire risk framework. The resulting products can support climate adaptation planning, hazard mitigation, environmental justice assessments, public health preparedness, and resource prioritization efforts.
+In contrast, large portions of the northern and eastern forested regions exhibited lower exposure despite elevated wildfire susceptibility because of lower population density and fewer built assets. This pattern highlights the distinction between wildfire hazard and exposure, as areas characterized by high wildfire potential do not necessarily correspond to locations where large populations or infrastructure are concentrated.
+
+The observed spatial distribution aligns with previous research demonstrating that expansion of the wildland–urban interface has substantially increased the number of people, homes, and critical assets exposed to wildfire hazards across the United States (Radeloff et al., 2018). Studies conducted in California further indicate that residential development patterns within fire-prone landscapes are among the strongest predictors of wildfire exposure and structural losses (Syphard et al., 2019). The concentration of elevated exposure around Paradise, Magalia, Chico, and Oroville reflects the growing interaction between human settlements and wildfire-prone environments, a pattern increasingly observed throughout western North America (Kramer et al., 2019).
+
+### Integrated Wildfire Risk Assessment
+
+The integrated wildfire risk assessment combined wildfire susceptibility, exposure, and socioeconomic vulnerability indicators to identify locations where wildfire impacts may be most severe. High-risk and very-high-risk zones were concentrated across the central and eastern portions of Butte County, particularly surrounding **Paradise**, **Magalia**, and adjacent foothill communities. Additional pockets of elevated risk were identified near **Oroville** and along portions of the wildland–urban interface where wildfire hazards intersect with exposed populations and socially vulnerable communities.
+
+The western agricultural valley regions exhibited generally lower risk levels despite containing populated areas because wildfire susceptibility remained comparatively low. Conversely, some mountainous areas displayed high wildfire susceptibility but lower overall risk because of reduced population exposure and limited concentrations of built infrastructure. These findings reinforce the principle that disaster risk is not determined solely by hazard occurrence but by the interaction of hazard, exposure, and vulnerability (IPCC, 2022).
+
+The resulting risk map illustrates the importance of considering both physical wildfire processes and socioeconomic vulnerability when prioritizing mitigation and adaptation strategies. Communities located within the foothill and WUI environments of Butte County represent priority areas for wildfire preparedness, fuel reduction programs, evacuation planning, and resilience-building initiatives. Similar studies have shown that socially vulnerable populations often experience disproportionate impacts from wildfire events due to limited adaptive capacity, reduced access to resources, and greater challenges during evacuation and post-disaster recovery (Chas-Amil et al., 2022).
+
+The concentration of high-risk zones around Paradise and Magalia is particularly noteworthy given the historical impacts of the 2018 Camp Fire, which demonstrated the severe consequences that can occur when wildfire hazards intersect with highly exposed and vulnerable communities. These findings are consistent with contemporary disaster-risk frameworks, which conceptualize risk as the interaction of hazard, exposure, and vulnerability rather than hazard alone (UNDRR, 2023).
+
+Overall, the results demonstrate that wildfire risk within Butte County is spatially heterogeneous and driven by the interaction of environmental conditions, population exposure, and socioeconomic vulnerability. The developed geospatial framework provides a reproducible approach for identifying wildfire-prone areas and supporting evidence-based climate adaptation, environmental justice, land-use planning, and community resilience initiatives. Furthermore, the framework is transferable to other wildfire-prone regions and demonstrates how GIS, remote sensing, and machine learning can be integrated to support disaster risk reduction and climate adaptation planning.
 
 ---
 
 ## Census API Configuration
 
-This project uses demographic and socioeconomic data obtained through the U.S. Census Bureau API.
+This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
 
-The Census API is required for generating both:
-
-* Population Exposure Layers
-* Community Vulnerability Layers
-
-### Obtain a Census API Key
+Obtain a Census API Key
 
 Request a free Census API key:
 
-https://api.census.gov/data/key_signup.html
+Census API Key Signup
 
-### Configure the API Key
+Configure the API Key
 
-Open:
+Update the following files:
 
-```text
+config/config.yaml
 src/download/population.py
 src/download/vulnerability.py
-```
 
 Replace:
 
-```python
 CENSUS_API_KEY = "YOUR_CENSUS_API_KEY"
-```
 
 with your personal Census API key.
 
-### Download Population Data
+Download Census Data
 
-```bash
+Population data:
+
 python src/download/population.py
-```
 
-### Download Vulnerability Data
+Vulnerability data:
 
-```bash
 python src/download/vulnerability.py
-```
+Documentation
+
+Census Developers Documentation
 
 ### Census API Documentation
 
 https://www.census.gov/data/developers/data-sets.html
 
 ---
-
-
 
 ## Workflow Execution
 
@@ -447,8 +432,6 @@ The notebooks are intended for analysis and interpretation of model outputs rath
 
 ## Repository Structure
 
-## Repository Structure
-
 ```text
 .
 ├── README.md
@@ -514,6 +497,25 @@ Potential future enhancements include:
 * Temporal wildfire forecasting
 
 ---
+
+## Reference
+
+Abatzoglou, J. T., & Williams, A. P. (2016). Impact of anthropogenic climate change on wildfire across western US forests. Proceedings of the National Academy of Sciences, 113(42), 11770–11775.
+
+Chas-Amil, M. L., Touza, J., García-Martínez, E., & Varela, E. (2022). Spatial patterns of social vulnerability in relation to wildfire risk. Landscape and Urban Planning, 228, 104566.
+
+IPCC. (2022). Climate Change 2022: Impacts, Adaptation and Vulnerability. Working Group II Contribution to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change.
+
+Jain, P., Coogan, S. C. P., Subramanian, S. G., Crowley, M., Taylor, S., & Flannigan, M. D. (2020). A review of machine learning applications in wildfire science and management. Environmental Reviews, 28(4), 478–505.
+
+Kramer, H. A., Mockrin, M. H., Alexandre, P. M., & Radeloff, V. C. (2019). High wildfire damage in interface communities in California. International Journal of Wildland Fire, 28(9), 641–650.
+
+Radeloff, V. C., Helmers, D. P., Kramer, H. A., et al. (2018). Rapid growth of the US wildland–urban interface raises wildfire risk. Proceedings of the National Academy of Sciences, 115(13), 3314–3319.
+
+Syphard, A. D., Keeley, J. E., & Massada, A. B. (2019). Housing arrangement and location determine the likelihood of housing loss due to wildfire. PLoS ONE, 7(3), e33954.
+
+UNDRR. (2023). Global Assessment Report on Disaster Risk Reduction. United Nations Office for Disaster Risk Reduction.
+
 
 ## License
 
