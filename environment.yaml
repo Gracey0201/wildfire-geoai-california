@@ -53,3 +53,4 @@ dependencies:
       - leafmap
       - mapclassify
       - osmnx
+      - geopy

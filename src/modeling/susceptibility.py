@@ -12,6 +12,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import rasterio
+import mapclassify
 import rioxarray as rxr
 import matplotlib.pyplot as plt
 
@@ -120,10 +121,7 @@ county_mask = (
     dem.values == -9999
 )
 
-
-# =========================================================
 # BUILD FEATURE STACK
-# =========================================================
 
 print("\nBuilding predictor stack")
 
@@ -234,45 +232,38 @@ print(
 )
 
 
-# QUANTILE CLASSIFICATION
+# NATURAL BREAKS CLASSIFICATION
+
+print("\nCalculating Natural Breaks classes")
 
 valid = susceptibility[
     susceptibility != -9999
 ]
 
-q20, q40, q60, q80 = np.percentile(
-
+classifier = mapclassify.NaturalBreaks(
     valid,
-
-    [20, 40, 60, 80]
-
+    k=5
 )
 
-print("\nQuantile Breaks")
-
-print(f"20%: {q20:.4f}")
-print(f"40%: {q40:.4f}")
-print(f"60%: {q60:.4f}")
-print(f"80%: {q80:.4f}")
-
-classes = np.digitize(
-
-    susceptibility,
-
-    bins=[
-        q20,
-        q40,
-        q60,
-        q80
-    ],
-
-    right=False
-
-) + 1
+classes = np.full(
+    susceptibility.shape,
+    0,
+    dtype=np.uint8
+)
 
 classes[
-    county_mask
-] = 0
+    susceptibility != -9999
+] = classifier.yb + 1
+
+print("\nNatural Breaks")
+
+for i, value in enumerate(
+    classifier.bins,
+    start=1
+):
+    print(
+        f"Class {i}: <= {value:.4f}"
+    )
 
 # SAVE CLASSIFIED RASTER
 
@@ -284,36 +275,51 @@ CLASS_PATH = (
 class_profile = profile.copy()
 
 class_profile.update(
-
     dtype=rasterio.uint8,
-
     nodata=0
-
 )
 
 with rasterio.open(
-
     CLASS_PATH,
-
     "w",
-
     **class_profile
-
 ) as dst:
 
     dst.write(
-
         classes.astype(
             rasterio.uint8
         ),
-
         1
-
     )
 
 print(
     f"Saved: {CLASS_PATH}"
 )
+
+print(
+    "\nSusceptibility Classes:"
+)
+
+print(
+    "1 = Very Low"
+)
+
+print(
+    "2 = Low"
+)
+
+print(
+    "3 = Moderate"
+)
+
+print(
+    "4 = High"
+)
+
+print(
+    "5 = Very High"
+)
+
 
 # PNG MAP
 

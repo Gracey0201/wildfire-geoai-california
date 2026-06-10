@@ -19,6 +19,7 @@ Input:
 
 Output:
 - wildfire_exposure.tif
+- wildfire_exposure_classes.tif
 """
 
 from pathlib import Path
@@ -26,6 +27,7 @@ import warnings
 
 import numpy as np
 import rasterio
+import mapclassify
 
 warnings.filterwarnings("ignore")
 
@@ -262,6 +264,85 @@ print(
     f"Saved: {EXPOSURE_PATH}"
 )
 
+
+# EXPOSURE CLASSES
+
+EXPOSURE_CLASSES_PATH = (
+    OUTPUT_DIR /
+    "wildfire_exposure_classes.tif"
+)
+
+print(
+    "\nClassifying exposure"
+)
+
+valid_values = exposure[
+    exposure != -9999
+]
+
+classifier = mapclassify.NaturalBreaks(
+    valid_values,
+    k=5
+)
+
+classes = np.full(
+    exposure.shape,
+    -9999,
+    dtype=np.int16
+)
+
+classes[
+    exposure != -9999
+] = classifier.yb + 1
+
+class_profile = profile.copy()
+
+class_profile.update(
+    dtype=rasterio.int16,
+    nodata=-9999
+)
+
+with rasterio.open(
+    EXPOSURE_CLASSES_PATH,
+    "w",
+    **class_profile
+) as dst:
+
+    dst.write(
+        classes.astype(
+            np.int16
+        ),
+        1
+    )
+
+print(
+    f"Saved: {EXPOSURE_CLASSES_PATH}"
+)
+
+print(
+    "\nExposure Classes:"
+)
+
+print(
+    "1 = Very Low"
+)
+
+print(
+    "2 = Low"
+)
+
+print(
+    "3 = Moderate"
+)
+
+print(
+    "4 = High"
+)
+
+print(
+    "5 = Very High"
+)
+
 # SUMMARY
 
 valid = exposure[
@@ -296,4 +377,8 @@ print("\nOutput:")
 
 print(
     EXPOSURE_PATH
+)
+
+print(
+    EXPOSURE_CLASSES_PATH
 )

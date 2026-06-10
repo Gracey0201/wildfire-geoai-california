@@ -20,6 +20,7 @@ Input:
 
 Output:
 - wildfire_risk.tif
+- wildfire_risk_classes.tif
 """
 
 from pathlib import Path
@@ -27,6 +28,7 @@ import warnings
 
 import numpy as np
 import rasterio
+import mapclassify
 
 warnings.filterwarnings("ignore")
 
@@ -243,6 +245,83 @@ print(
     f"Saved: {RISK_PATH}"
 )
 
+# RISK CLASSES
+
+RISK_CLASSES_PATH = (
+    OUTPUT_DIR /
+    "wildfire_risk_classes.tif"
+)
+
+print(
+    "\nClassifying wildfire risk"
+)
+
+valid_values = risk[
+    risk != -9999
+]
+
+classifier = mapclassify.Quantiles(
+    valid_values,
+    k=5
+)
+
+classes = np.full(
+    risk.shape,
+    -9999,
+    dtype=np.int16
+)
+
+classes[
+    risk != -9999
+] = classifier.yb + 1
+
+class_profile = profile.copy()
+
+class_profile.update(
+    dtype=rasterio.int16,
+    nodata=-9999
+)
+
+with rasterio.open(
+    RISK_CLASSES_PATH,
+    "w",
+    **class_profile
+) as dst:
+
+    dst.write(
+        classes.astype(
+            np.int16
+        ),
+        1
+    )
+
+print(
+    f"Saved: {RISK_CLASSES_PATH}"
+)
+
+print(
+    "\nRisk Classes:"
+)
+
+print(
+    "1 = Very Low"
+)
+
+print(
+    "2 = Low"
+)
+
+print(
+    "3 = Moderate"
+)
+
+print(
+    "4 = High"
+)
+
+print(
+    "5 = Very High"
+)
 
 # SUMMARY
 
@@ -278,4 +357,8 @@ print("\nOutput:")
 
 print(
     RISK_PATH
+)
+
+print(
+    RISK_CLASSES_PATH
 )
