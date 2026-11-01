@@ -333,20 +333,6 @@ The final risk map identifies locations where wildfire hazards intersect with ex
 
 ---
 
-## Model Performance
-
-The Random Forest wildfire susceptibility model achieved:
-
-| Metric    | Value |
-| --------- | ----- |
-| Accuracy  | 96.1% |
-| Precision | 95.8% |
-| Recall    | 96.4% |
-| F1 Score  | 96.1% |
-| ROC-AUC   | 0.994 |
-
-Feature importance analysis identified precipitation, elevation, land cover, slope, and proximity to settlements as key wildfire predictors.
-
 ---
 ## Results
 
@@ -391,6 +377,91 @@ The resulting composite risk map provides a spatial basis for identifying commun
 ### Overall Results
 
 Overall, the findings demonstrate that wildfire susceptibility, population exposure, and socioeconomic vulnerability exhibit distinct but intersecting spatial patterns across Butte County. Their integration provides a more comprehensive representation of community wildfire risk than consideration of wildfire susceptibility alone.
+
+---
+
+
+## Model Evaluation
+
+The Random Forest wildfire susceptibility model was evaluated using classification performance metrics, a confusion matrix, and five-fold cross-validation. Feature importance analysis and ROC curve assessment were also used to examine model discrimination performance and the relative contribution of environmental and anthropogenic predictors.
+
+### 1. Classification Performance
+
+The model demonstrated strong classification performance on the evaluation dataset, achieving an accuracy of **96.11%** and an F1-score of **96.12%**.
+
+| Evaluation Metric | Score |
+|---|---:|
+| Accuracy | 96.11% |
+| Precision | 95.84% |
+| Recall | 96.41% |
+| F1-score | 96.12% |
+| ROC-AUC | 0.9943 |
+
+The ROC-AUC score of 0.9943 indicates strong discrimination between the wildfire occurrence classes in the reported test-set evaluation.
+
+### 2. Confusion Matrix
+
+The confusion matrix illustrates the agreement between observed and predicted wildfire occurrence classes.
+
+<img
+  width="100%"
+  alt="Random Forest confusion matrix showing correctly and incorrectly classified wildfire and non-wildfire observations."
+  src="INSERT_CONFUSION_MATRIX_URL"
+ />
+
+The model correctly classified 19,163 non-wildfire observations and 19,281 wildfire observations. It recorded 837 false positives and 719 false negatives, demonstrating strong classification performance across both classes.
+
+### 3. Five-Fold Cross-Validation
+
+Five-fold cross-validation was performed to examine the consistency of model discrimination performance across five validation folds.
+
+The ROC-AUC scores obtained from the individual folds are presented below.
+
+| Validation Fold | ROC-AUC |
+|---|---:|
+| Fold 1 | 0.9885 |
+| Fold 2 | 0.9876 |
+| Fold 3 | 0.9888 |
+| Fold 4 | 0.9888 |
+| Fold 5 | 0.9872 |
+| **Mean ROC-AUC** | **0.9881** |
+| **Standard Deviation** | **0.00066** |
+
+The mean five-fold ROC-AUC of 0.9881, accompanied by a standard deviation of 0.00066, indicates relatively consistent discrimination performance across the five validation folds.
+
+### 4. Random Forest Feature Importance
+
+Feature importance analysis was conducted to examine the relative contribution of environmental and anthropogenic predictors to the Random Forest wildfire susceptibility model.
+
+<img
+  width="100%"
+  alt="Random Forest feature importance chart showing the relative contributions of wildfire susceptibility predictors."
+  src="INSERT_FEATURE_IMPORTANCE_URL"
+/>
+
+The results identified **precipitation and elevation** as the leading predictors, followed by land cover and slope. Distance to roads, distance to settlements, and topographic wetness index (TWI) also contributed to the model.
+
+Feature importance represents the relative contribution of predictors within the fitted model and should not be interpreted as evidence of direct causation.
+
+### 5. Receiver Operating Characteristic (ROC) Curve
+
+The Receiver Operating Characteristic (ROC) curve illustrates the model's ability to distinguish between wildfire occurrence and non-wildfire classes across different classification thresholds.
+
+<img
+  width="100%"
+  alt="Receiver Operating Characteristic curve illustrating Random Forest classification discrimination performance."
+  src="INSERT_ROC_CURVE_URL"
+/>
+
+The test-set ROC-AUC of 0.9943 indicates strong discrimination between the two classes in the reported evaluation.
+
+### Model Evaluation Summary
+
+Overall, the Random Forest model demonstrated strong classification performance, achieving a test-set ROC-AUC of 0.9943 and a mean five-fold cross-validation ROC-AUC of 0.9881.
+
+The classification metrics, confusion matrix, and cross-validation results provide complementary evidence of model performance. Feature importance analysis further identifies the predictors that contributed most to the model's wildfire susceptibility classifications.
+
+These evaluation results support the use of the Random Forest model to generate the wildfire susceptibility surface used in the subsequent population exposure and integrated wildfire risk assessments.
 
 ---
 
