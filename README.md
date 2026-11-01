@@ -36,17 +36,17 @@ The overall objective is to develop a reproducible geospatial risk assessment fr
 
 The specific objectives are to:
 
-Develop a wildfire susceptibility model: Apply Random Forest machine learning to environmental and anthropogenic predictors to generate a spatial representation of wildfire susceptibility.
+1. **Develop a wildfire susceptibility model:** Apply Random Forest machine learning to environmental and anthropogenic predictors to generate a spatial representation of wildfire susceptibility.
 
-Assess population exposure: Examine population density and Wildland–Urban Interface (WUI) distribution in relation to wildfire susceptibility to identify potentially exposed communities.
+2. **Assess population exposure:** Examine population density and Wildland–Urban Interface (WUI) distribution in relation to wildfire susceptibility to identify potentially exposed communities.
 
-Evaluate socioeconomic vulnerability: Incorporate poverty, older adult population, income characteristics, and disability indicators to characterize spatial differences in community vulnerability.
+3. **Evaluate socioeconomic vulnerability:** Incorporate poverty, older adult population, income characteristics, and disability indicators to characterize spatial differences in community vulnerability.
 
-Integrate wildfire risk dimensions: Combine wildfire susceptibility, population exposure, and socioeconomic vulnerability into a composite wildfire risk assessment framework.
+4. **Integrate wildfire risk dimensions:** Combine wildfire susceptibility, population exposure, and socioeconomic vulnerability into a composite wildfire risk assessment framework.
 
-Generate decision-support maps: Produce spatial outputs that illustrate wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County.
+5. **Generate decision-support maps:** Produce spatial outputs illustrating wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County.
 
-Support public health and community preparedness: Demonstrate how integrated geospatial analysis can inform targeted wildfire preparedness, climate resilience planning, and public health decision-making.
+6. **Support public health and community preparedness:** Demonstrate how integrated geospatial analysis can inform targeted wildfire preparedness, climate resilience planning, and public health decision-making.
 ---
 
 ## Installation and Setup
