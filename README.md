@@ -1,23 +1,25 @@
-# Spatial Modeling of Wildfire Risk and Socioeconmomic Vulnerability in Butte County, California
-This project develops a reproducible GeoAI framework for wildfire susceptibility, exposure, vulnerability, and risk assessment in Butte County, California.
+# Supporting Community Wildfire Preparedness in Butte County, California: An Integrated Geospatial Risk Assessment Framework
+A reproducible GeoAI framework integrating Random Forest wildfire susceptibility modeling, population exposure, and socioeconomic vulnerability to assess wildfire risk in Butte County, California.
 
-## Overview
+## Project Overview
 
-Wildfires represent one of the most significant climate-related hazards affecting communities across California and the western United States. Increasing wildfire frequency, prolonged drought conditions, expanding Wildland–Urban Interface (WUI) development, and growing population exposure have intensified the need for data-driven approaches to wildfire risk assessment and climate adaptation planning.
+Wildfires pose significant threats to communities through direct exposure to fire, smoke-related health impacts, infrastructure damage, displacement, and disruption of essential services. These impacts are not distributed equally, as communities differ in their exposure to wildfire hazards and their socioeconomic capacity to prepare for, respond to, and recover from wildfire events.
 
-This project develops a reproducible GeoAI framework for wildfire susceptibility, exposure, vulnerability, and risk assessment in Butte County, California. The workflow integrates machine learning, remote sensing, geospatial analysis, demographic indicators, and automated spatial data processing to identify locations where wildfire impacts may pose the greatest threat to communities.
+This project develops an integrated geospatial artificial intelligence (GeoAI) framework to assess wildfire risk in Butte County, California. The framework combines Random Forest machine learning for wildfire susceptibility modeling with population exposure and socioeconomic vulnerability assessments to identify areas where environmental hazards and community vulnerability intersect.
 
-The project combines environmental hazard indicators, population exposure metrics, and community vulnerability characteristics to support climate resilience planning, environmental justice assessments, public health preparedness, and geospatial decision-making.
+Using publicly available geospatial, environmental, demographic, and socioeconomic datasets, the project integrates multiple dimensions of wildfire risk into a spatial assessment framework. The resulting maps provide insights into the geographic distribution of wildfire susceptibility, population exposure, and composite wildfire risk.
+
+The project aims to demonstrate how geospatial analysis and machine learning can support evidence-based wildfire preparedness, community resilience planning, and public health decision-making, particularly in communities facing elevated environmental and socioeconomic risks.
 
 ---
 
 ## Project Significance
 
-Wildfires increasingly threaten communities, infrastructure, ecosystems, and public health across California. Smoke exposure, displacement, infrastructure disruption, and economic losses disproportionately affect vulnerable populations.
+Understanding where wildfire hazards intersect with population exposure and socioeconomic vulnerability is important for effective climate adaptation, community resilience, and public health preparedness.
 
-By integrating machine learning, geospatial analytics, exposure assessment, and community vulnerability indicators, this project provides a reproducible framework for identifying communities at elevated wildfire risk.
+By integrating machine learning, geospatial analytics, exposure assessment, and community vulnerability indicators, this project provides a reproducible framework for identifying areas of elevated wildfire risk.
 
-The resulting workflow supports:
+The resulting workflow can support:
 
 * Climate adaptation planning
 * Community resilience initiatives
@@ -30,16 +32,21 @@ The resulting workflow supports:
 
 ## Project Objectives
 
-The objectives of this project are to:
+The overall objective is to develop a reproducible geospatial risk assessment framework integrating wildfire susceptibility, population exposure, and socioeconomic vulnerability in Butte County, California.
 
-* Develop a reproducible GeoAI workflow for wildfire susceptibility modeling.
-* Identify environmental and anthropogenic drivers associated with wildfire occurrence.
-* Quantify community exposure using population density and Wildland–Urban Interface (WUI) indicators.
-* Assess community vulnerability using socioeconomic indicators.
-* Integrate susceptibility, exposure, and vulnerability layers into a comprehensive wildfire risk framework.
-* Produce decision-support maps for climate adaptation and resilience planning.
-* Demonstrate scalable and reproducible geospatial machine learning workflows using open-source tools.
+The specific objectives are to:
 
+Develop a wildfire susceptibility model: Apply Random Forest machine learning to environmental and anthropogenic predictors to generate a spatial representation of wildfire susceptibility.
+
+Assess population exposure: Examine population density and Wildland–Urban Interface (WUI) distribution in relation to wildfire susceptibility to identify potentially exposed communities.
+
+Evaluate socioeconomic vulnerability: Incorporate poverty, older adult population, income characteristics, and disability indicators to characterize spatial differences in community vulnerability.
+
+Integrate wildfire risk dimensions: Combine wildfire susceptibility, population exposure, and socioeconomic vulnerability into a composite wildfire risk assessment framework.
+
+Generate decision-support maps: Produce spatial outputs that illustrate wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County.
+
+Support public health and community preparedness: Demonstrate how integrated geospatial analysis can inform targeted wildfire preparedness, climate resilience planning, and public health decision-making.
 ---
 
 ## Installation and Setup
