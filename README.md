@@ -95,9 +95,12 @@ Jupyter notebooks are provided for model evaluation, visualization, interpretati
 
 ## Study Area
 
-The study area is Butte County, California.
+Butte County is located in Northern California, USA, spanning portions of the northern Sacramento Valley and the Sierra Nevada foothills. The county has diverse environmental and geographical conditions, including varied terrain, vegetation, and land-use patterns.
 
-Butte County was selected because of its history of destructive wildfire events, extensive Wildland–Urban Interface development, diverse environmental conditions, and importance for climate resilience planning.
+Butte County was selected as the study area because of its history of destructive wildfire events, extensive Wildland–Urban Interface (WUI) development, diverse environmental conditions, and importance for climate resilience planning.
+
+<img width="3300" height="2550" alt="Study area map showing Butte County, California, within the state of California" src="https://github.com/user-attachments/assets/7c8b2f8a-82c6-456e-afa0-e38f3fa51959" />
+
 
 ---
 
