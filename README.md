@@ -350,35 +350,47 @@ Feature importance analysis identified precipitation, elevation, land cover, slo
 ---
 ## Results
 
-The GeoAI framework successfully identified spatial patterns of wildfire susceptibility, exposure, and integrated risk across Butte County, California.
+The integrated GeoAI framework generated spatial outputs describing wildfire susceptibility, population exposure, and composite wildfire risk across Butte County, California. The results reveal distinct spatial patterns shaped by environmental conditions, population distribution, and socioeconomic vulnerability.
 
-### Wildfire Susceptibility Assessment
+<img
+  width="100%"
+  alt="Three-panel results map showing wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County, California."
+  src="Result.png"
+/>
 
-The Random Forest model successfully identified spatial patterns of wildfire susceptibility across Butte County, California. Areas classified as **high** and **very high susceptibility** were concentrated primarily in the eastern, southeastern, and central foothill and mountainous regions of the county. Elevated susceptibility was particularly evident around the communities of **Paradise**, **Magalia**, and portions of the Sierra Nevada foothills, whereas the western agricultural valley regions surrounding **Chico** and **Oroville** were characterized predominantly by low-susceptibility classes.
+### 1. Wildfire Susceptibility Assessment
 
-Model evaluation demonstrated excellent predictive performance, with a mean five-fold cross-validation ROC-AUC score of **0.988**, indicating a strong ability to distinguish wildfire-prone from non-prone locations. The low variability among folds suggests that the model generalized consistently across the study area.
+The Random Forest model generated a continuous wildfire susceptibility surface showing spatial variations in wildfire-prone conditions across Butte County.
 
-Feature importance analysis revealed that **precipitation** was the most influential predictor, followed by **elevation (DEM)**, **land cover**, and **slope**. Variables representing proximity to settlements and roads exhibited moderate influence, while topographic wetness index (TWI) contributed comparatively less to model performance. These findings are consistent with previous studies demonstrating that climatic conditions, vegetation characteristics, and topographic factors strongly influence wildfire occurrence and spread across western North America (Jain et al., 2020). The importance of precipitation and elevation within the model further supports evidence that climate variability, fuel moisture conditions, and terrain-related processes play a critical role in shaping wildfire susceptibility patterns throughout California landscapes (Abatzoglou & Williams, 2016). Furthermore, recent climate assessments indicate that increasing temperatures, altered precipitation regimes, and prolonged drought conditions are expected to exacerbate wildfire hazards across many regions of the western United States (IPCC, 2022).
+Areas classified as **high and very high susceptibility** were concentrated primarily in the eastern, southeastern, and central foothill and mountainous regions of the county. Elevated susceptibility was particularly evident around **Paradise, Magalia, and portions of the Sierra Nevada foothills**. In contrast, the western agricultural valley regions surrounding **Chico and Oroville** were predominantly characterized by low-susceptibility classes.
 
-### Wildfire Exposure Assessment
+These spatial patterns highlight the influence of environmental and topographic conditions on the geographic distribution of wildfire susceptibility across the study area.
 
-The wildfire exposure assessment identified locations where populations and built environments are most likely to be affected by wildfire hazards. Exposure levels were generally highest within and around the urbanized and wildland–urban interface (WUI) environments surrounding **Chico**, **Paradise**, **Magalia**, and **Oroville**. Moderate to high exposure zones were concentrated near developed areas where residential communities, transportation infrastructure, and human activities intersect with wildfire-prone landscapes.
+### 2. Population Exposure Assessment
 
-In contrast, large portions of the northern and eastern forested regions exhibited lower exposure despite elevated wildfire susceptibility because of lower population density and fewer built assets. This pattern highlights the distinction between wildfire hazard and exposure, as areas characterized by high wildfire potential do not necessarily correspond to locations where large populations or infrastructure are concentrated.
+The population exposure assessment revealed spatial differences in the distribution of populations potentially exposed to wildfire hazards.
 
-The observed spatial distribution aligns with previous research demonstrating that expansion of the wildland–urban interface has substantially increased the number of people, homes, and critical assets exposed to wildfire hazards across the United States (Radeloff et al., 2018). Studies conducted in California further indicate that residential development patterns within fire-prone landscapes are among the strongest predictors of wildfire exposure and structural losses (Syphard et al., 2019). The concentration of elevated exposure around Paradise, Magalia, Chico, and Oroville reflects the growing interaction between human settlements and wildfire-prone environments, a pattern increasingly observed throughout western North America (Kramer et al., 2019).
+Higher exposure levels were concentrated around developed areas and Wildland–Urban Interface (WUI) environments, particularly surrounding **Chico, Paradise, Magalia, and Oroville**.
 
-### Integrated Wildfire Risk Assessment
+In contrast, extensive forested areas in the northern and eastern portions of the county exhibited relatively lower population exposure despite elevated wildfire susceptibility. This distinction demonstrates that areas with high wildfire susceptibility do not necessarily correspond to areas with high population exposure.
 
-The integrated wildfire risk assessment combined wildfire susceptibility, exposure, and socioeconomic vulnerability indicators to identify locations where wildfire impacts may be most severe. High-risk and very-high-risk zones were concentrated across the central and eastern portions of Butte County, particularly surrounding **Paradise**, **Magalia**, and adjacent foothill communities. Additional pockets of elevated risk were identified near **Oroville** and along portions of the wildland–urban interface where wildfire hazards intersect with exposed populations and socially vulnerable communities.
+The results emphasize the importance of considering population distribution alongside wildfire susceptibility when evaluating potential community exposure.
 
-The western agricultural valley regions exhibited generally lower risk levels despite containing populated areas because wildfire susceptibility remained comparatively low. Conversely, some mountainous areas displayed high wildfire susceptibility but lower overall risk because of reduced population exposure and limited concentrations of built infrastructure. These findings reinforce the principle that disaster risk is not determined solely by hazard occurrence but by the interaction of hazard, exposure, and vulnerability (IPCC, 2022).
+### 3. Integrated Wildfire Risk Assessment
 
-The resulting risk map illustrates the importance of considering both physical wildfire processes and socioeconomic vulnerability when prioritizing mitigation and adaptation strategies. Communities located within the foothill and WUI environments of Butte County represent priority areas for wildfire preparedness, fuel reduction programs, evacuation planning, and resilience-building initiatives. Similar studies have shown that socially vulnerable populations often experience disproportionate impacts from wildfire events due to limited adaptive capacity, reduced access to resources, and greater challenges during evacuation and post-disaster recovery (Chas-Amil et al., 2022).
+The integrated wildfire risk assessment combined wildfire susceptibility, population exposure, and socioeconomic vulnerability to identify geographic areas where these dimensions intersect.
 
-The concentration of high-risk zones around Paradise and Magalia is particularly noteworthy given the historical impacts of the 2018 Camp Fire, which demonstrated the severe consequences that can occur when wildfire hazards intersect with highly exposed and vulnerable communities. These findings are consistent with contemporary disaster-risk frameworks, which conceptualize risk as the interaction of hazard, exposure, and vulnerability rather than hazard alone (UNDRR, 2023).
+**High and very high wildfire risk zones** were concentrated primarily across the central and eastern portions of Butte County, particularly around **Paradise, Magalia, and adjacent foothill communities**. Additional areas of elevated risk were identified near **Oroville** and other portions of the WUI.
 
-Overall, the results demonstrate that wildfire risk within Butte County is spatially heterogeneous and driven by the interaction of environmental conditions, population exposure, and socioeconomic vulnerability. The developed geospatial framework provides a reproducible approach for identifying wildfire-prone areas and supporting evidence-based climate adaptation, environmental justice, land-use planning, and community resilience initiatives. Furthermore, the framework is transferable to other wildfire-prone regions and demonstrates how GIS, remote sensing, and machine learning can be integrated to support disaster risk reduction and climate adaptation planning.
+In contrast, some mountainous areas with elevated wildfire susceptibility exhibited lower integrated risk because of comparatively lower population exposure. The western agricultural valley regions also generally exhibited lower composite risk.
+
+These patterns demonstrate the spatial heterogeneity of wildfire risk and highlight the importance of integrating environmental hazard conditions with population exposure and socioeconomic vulnerability.
+
+The resulting composite risk map provides a spatial basis for identifying communities that may warrant greater attention in wildfire preparedness, mitigation, and resilience planning.
+
+### Overall Results
+
+Overall, the findings demonstrate that wildfire susceptibility, population exposure, and socioeconomic vulnerability exhibit distinct but intersecting spatial patterns across Butte County. Their integration provides a more comprehensive representation of community wildfire risk than consideration of wildfire susceptibility alone.
 
 ---
 
