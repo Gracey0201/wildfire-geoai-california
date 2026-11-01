@@ -101,8 +101,113 @@ Butte County was selected as the study area because of its history of destructiv
 
 <img width="3300" height="2550" alt="Study area map showing Butte County, California, within the state of California" src="https://github.com/user-attachments/assets/7c8b2f8a-82c6-456e-afa0-e38f3fa51959" />
 
+---
+
+
+## Data and Methodology
+
+### 1. Data Sources and Acquisition
+
+This project uses publicly available geospatial, environmental, demographic, and socioeconomic datasets to develop an integrated wildfire risk assessment framework.
+
+The primary datasets and their applications include:
+
+| Dataset | Source | Application |
+|---|---|---|
+| Historical wildfire perimeters | CAL FIRE | Wildfire occurrence information and model training |
+| Digital Elevation Model (DEM) | USGS | Terrain analysis and predictor development |
+| Land cover | National Land Cover Database (NLCD) | Environmental predictor |
+| Precipitation | Microsoft Planetary Computer | Environmental predictor |
+| Roads and settlements | OpenStreetMap | Human influence and distance-based predictors |
+| Population data | U.S. Census Bureau | Population exposure assessment |
+| Socioeconomic indicators | American Community Survey (ACS) | Community vulnerability assessment |
+| County boundary | California State Geoportal | Study area definition and spatial clipping |
+
+The automated data acquisition workflow includes:
+
+- Dataset querying and retrieval
+- Downloading publicly available datasets
+- Spatial clipping to the study area
+- Reprojection and data organization
+
+### 2. Spatial Data Preprocessing
+
+Raster and vector datasets were standardized to support consistent spatial analysis.
+
+The preprocessing workflow included:
+
+- Coordinate system reprojection
+- Spatial clipping to the Butte County boundary
+- Raster alignment
+- Resampling to a common spatial resolution
+- NoData handling
+- Raster masking
+- Data normalization
+
+These procedures prepared the datasets for subsequent spatial analysis, predictor development, and modeling.
+
+### 3. Predictor Preparation and Feature Engineering
+
+Environmental and anthropogenic predictors were developed for wildfire susceptibility modeling.
+
+**Environmental predictors:**
+
+- Elevation
+- Slope
+- Topographic Wetness Index (TWI)
+- Precipitation
+- Land cover
+
+**Anthropogenic predictors:**
+
+- Distance to roads
+- Distance to settlements
+
+Terrain derivatives, including slope and TWI, were generated from elevation data. Distance-based variables were developed to represent the influence of human infrastructure and settlement patterns.
+
+### 4. Wildfire Susceptibility Modeling
+
+A Random Forest machine learning algorithm was used to model wildfire susceptibility based on the prepared environmental and anthropogenic predictors.
+
+Historical wildfire perimeter information was used in preparing the model training data and wildfire occurrence labels.
+
+The model was trained to identify spatial patterns associated with wildfire occurrence and generate a continuous wildfire susceptibility surface across Butte County.
+
+### 5. Population Exposure Assessment
+
+Population exposure was assessed by integrating population density and Wildland–Urban Interface (WUI) information.
+
+The analysis examined the spatial distribution of populations in relation to wildfire-prone areas to identify communities potentially exposed to wildfire hazards.
+
+The resulting exposure layer represents the spatial distribution of population exposure across the study area.
+
+### 6. Socioeconomic Vulnerability Assessment
+
+Community vulnerability was assessed using demographic and socioeconomic indicators obtained from the American Community Survey (ACS).
+
+The indicators included:
+
+- Poverty
+- Older adult population
+- Income characteristics
+- Disability indicators
+
+These indicators were processed and combined to develop a spatial vulnerability index representing differences in community socioeconomic conditions and potential capacity to prepare for, respond to, and recover from wildfire impacts.
+
+### 7. Integrated Wildfire Risk Assessment
+
+Wildfire susceptibility, population exposure, and socioeconomic vulnerability were integrated to produce a composite wildfire risk surface.
+
+The conceptual framework represents wildfire risk as:
+
+**Risk = Susceptibility × Exposure × Vulnerability**
+
+The integrated assessment identifies geographic areas where elevated wildfire susceptibility intersects with population exposure and socioeconomic vulnerability.
+
+The final output is a spatially explicit wildfire risk map for Butte County, California, intended to support community preparedness, climate resilience planning, and public health decision-making.
 
 ---
+
 
 ## Conceptual Framework
 
