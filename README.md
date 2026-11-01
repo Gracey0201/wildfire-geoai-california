@@ -106,9 +106,17 @@ Butte County was selected as the study area because of its history of destructiv
 
 ## Data and Methodology
 
-### 1. Data Sources and Acquisition
-
 This project uses publicly available geospatial, environmental, demographic, and socioeconomic datasets to develop an integrated wildfire risk assessment framework.
+
+The following workflow summarizes the geospatial processing and analytical stages used to develop the integrated wildfire risk assessment framework.
+
+<img
+  width="100%"
+  alt="Six-stage wildfire risk assessment workflow showing data acquisition, spatial preprocessing, predictor preparation, Random Forest wildfire susceptibility modeling, population exposure and socioeconomic vulnerability assessment, and integrated wildfire risk assessment."
+  src="https://github.com/user-attachments/assets/e205d206-08d2-4b0f-be84-3f3d7396660a"
+/>
+
+### 1. Data Sources and Acquisition
 
 The primary datasets and their applications include:
 
