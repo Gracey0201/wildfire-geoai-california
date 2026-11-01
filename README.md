@@ -49,50 +49,6 @@ The specific objectives are to:
 6. **Support public health and community preparedness:** Demonstrate how integrated geospatial analysis can inform targeted wildfire preparedness, climate resilience planning, and public health decision-making.
 ---
 
-## Installation and Setup
-
-### System Requirements
-
-The project was developed and tested using:
-
-* Python 3.11+
-* Conda (recommended)
-* Jupyter Notebook / JupyterLab
-* ArcGIS Pro (optional, for cartographic map production)
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/Gracey0201/wildfire-geoai-california.git
-
-cd wildfire-geoai-california
-```
-
-### Create the Conda Environment
-
-```bash
-conda env create -f environment.yaml
-
-conda activate wildfire-geoai
-```
-
-### Verify Installation
-
-Confirm that required packages are available:
-
-```bash
-python -c "import geopandas, rasterio, sklearn; print('Installation successful')"
-```
-
-### Reproduce the Analysis
-
-The complete workflow can be executed using the Python scripts described in the Workflow Execution section below.
-
-Jupyter notebooks are provided for model evaluation, visualization, interpretation, and quality assurance of results.
-
----
-
-
 ## Study Area
 
 Butte County is located in Northern California, USA, spanning portions of the northern Sacramento Valley and the Sierra Nevada foothills. The county has diverse environmental and geographical conditions, including varied terrain, vegetation, and land-use patterns.
@@ -217,123 +173,6 @@ The final output is a spatially explicit wildfire risk map for Butte County, Cal
 ---
 
 
-## Conceptual Framework
-
-This project follows an integrated wildfire risk framework:
-
-```text
-Risk = Susceptibility × Exposure × Vulnerability
-```
-
-### Susceptibility
-
-Represents the relative likelihood of wildfire occurrence based on environmental and anthropogenic conditions.
-
-### Exposure
-
-Represents populations, infrastructure, and built environments that may be affected by wildfire events.
-
-### Vulnerability
-
-Represents the socioeconomic characteristics that influence a community's ability to prepare for, respond to, and recover from wildfire impacts.
-
-The integration of these components produces a spatially explicit wildfire risk surface for Butte County.
-
----
-
-## Methodology
-
-### 1. Automated Geospatial Data Acquisition
-
-Geospatial datasets are obtained from publicly available sources including:
-
-* U.S. Census Bureau
-* Microsoft Planetary Computer
-* OpenStreetMap
-* National Land Cover Database (NLCD)
-* Digital Elevation Models (DEM)
-* Historical wildfire perimeter datasets
-
-The workflow automates:
-
-* Dataset querying
-* Downloading
-* Clipping
-* Reprojection
-* Data organization
-
----
-
-### 2. Spatial Data Processing
-
-All raster and vector datasets are standardized through:
-
-* Reprojection
-* Spatial clipping
-* Raster alignment
-* Resampling
-* NoData handling
-* Raster masking
-* Normalization
-
----
-
-### 3. Wildfire Susceptibility Modeling
-
-A Random Forest machine learning model was developed using environmental and anthropogenic predictors.
-
-#### Environmental Variables
-
-* Elevation
-* Slope
-* Topographic Wetness Index (TWI)
-* Precipitation
-* Land Cover
-
-#### Human Influence Variables
-
-* Distance to Roads
-* Distance to Settlements
-
-The model generates a continuous wildfire susceptibility surface representing relative wildfire hazard potential.
-
----
-
-### 4. Exposure Assessment
-
-Exposure was modeled using:
-
-* Population Density
-* Wildland–Urban Interface (WUI)
-
-The exposure surface identifies populations and infrastructure potentially affected by wildfire events.
-
----
-
-### 5. Community Vulnerability Assessment
-
-A vulnerability index was developed using demographic and socioeconomic indicators representing community sensitivity and adaptive capacity.
-
-Indicators include:
-
-* Poverty
-* Older Adult Population
-* Income Characteristics
-* Disability Indicators
-
-The resulting vulnerability surface identifies communities that may experience disproportionate impacts during wildfire events.
-
----
-
-### 6. Integrated Wildfire Risk Assessment
-
-Wildfire susceptibility, exposure, and vulnerability layers were integrated to generate a composite wildfire risk surface.
-
-The final risk map identifies locations where wildfire hazards intersect with exposed populations and vulnerable communities.
-
----
-
----
 ## Results
 
 The integrated GeoAI framework generated spatial outputs describing wildfire susceptibility, population exposure, and composite wildfire risk across Butte County, California. The results reveal distinct spatial patterns shaped by environmental conditions, population distribution, and socioeconomic vulnerability.
@@ -380,7 +219,6 @@ Overall, the findings demonstrate that wildfire susceptibility, population expos
 
 ---
 
-
 ## Model Evaluation
 
 The Random Forest wildfire susceptibility model was evaluated using classification performance metrics, a confusion matrix, and five-fold cross-validation. Feature importance analysis and ROC curve assessment were also used to examine model discrimination performance and the relative contribution of environmental and anthropogenic predictors.
@@ -404,10 +242,10 @@ The ROC-AUC score of 0.9943 indicates strong discrimination between the wildfire
 The confusion matrix illustrates the agreement between observed and predicted wildfire occurrence classes.
 
 <img
-  width="100%"
-  alt="Random Forest confusion matrix showing correctly and incorrectly classified wildfire and non-wildfire observations."
-  src="INSERT_CONFUSION_MATRIX_URL"
- />
+  width="700"
+  alt="Random Forest confusion matrix showing true positives, true negatives, false positives, and false negatives."
+  src="outputs/model_evaluation/confusion_matrix.png"
+/>
 
 The model correctly classified 19,163 non-wildfire observations and 19,281 wildfire observations. It recorded 837 false positives and 719 false negatives, demonstrating strong classification performance across both classes.
 
@@ -434,9 +272,9 @@ The mean five-fold ROC-AUC of 0.9881, accompanied by a standard deviation of 0.0
 Feature importance analysis was conducted to examine the relative contribution of environmental and anthropogenic predictors to the Random Forest wildfire susceptibility model.
 
 <img
-  width="100%"
-  alt="Random Forest feature importance chart showing the relative contributions of wildfire susceptibility predictors."
-  src="INSERT_FEATURE_IMPORTANCE_URL"
+  width="700"
+  alt="Random Forest feature importance chart showing the relative contribution of environmental and anthropogenic predictors."
+  src="outputs/feature_importance/feature_importance.png"
 />
 
 The results identified **precipitation and elevation** as the leading predictors, followed by land cover and slope. Distance to roads, distance to settlements, and topographic wetness index (TWI) also contributed to the model.
@@ -448,9 +286,9 @@ Feature importance represents the relative contribution of predictors within the
 The Receiver Operating Characteristic (ROC) curve illustrates the model's ability to distinguish between wildfire occurrence and non-wildfire classes across different classification thresholds.
 
 <img
-  width="100%"
-  alt="Receiver Operating Characteristic curve illustrating Random Forest classification discrimination performance."
-  src="INSERT_ROC_CURVE_URL"
+  width="700"
+  alt="Receiver Operating Characteristic curve illustrating Random Forest classification performance."
+  src="outputs/model_evaluation/roc_curve.png"
 />
 
 The test-set ROC-AUC of 0.9943 indicates strong discrimination between the two classes in the reported evaluation.
@@ -465,9 +303,26 @@ These evaluation results support the use of the Random Forest model to generate 
 
 ---
 
+## Discussion
+
+The findings of this study demonstrate the spatial heterogeneity of wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County, California. The concentration of elevated wildfire susceptibility across the eastern, southeastern, and central foothill and mountainous regions highlights the influence of environmental and topographic conditions on wildfire-prone landscapes. The prominence of precipitation and elevation among the Random Forest predictors is consistent with previous research demonstrating the influence of climatic conditions on wildfire activity across western United States forests (Abatzoglou & Williams, 2016). These findings highlight the importance of environmental and terrain-related characteristics in understanding the spatial distribution of wildfire susceptibility. However, the relative importance of these predictors within the fitted model should not be interpreted as evidence of direct causation or climate attribution.
+
+The population exposure assessment revealed that areas with elevated wildfire susceptibility do not necessarily correspond to locations with the highest population exposure. This distinction reinforces the importance of considering human settlement patterns alongside environmental wildfire conditions. The observed spatial distribution aligns with previous research demonstrating that expansion of the Wildland–Urban Interface (WUI) has substantially increased the number of people, homes, and other assets located within wildfire-prone landscapes across the United States (Radeloff et al., 2018). Studies conducted in California further demonstrate the significance of settlement patterns within fire-prone landscapes. Kramer et al. (2019) found that interface WUI areas accounted for approximately half of the buildings destroyed in the California wildfires examined. Similarly, Syphard and Keeley (2019) investigated factors associated with structural loss during the 2013–2018 California wildfires, identifying building characteristics and homeowner mitigation practices as important considerations for structure survival. The concentration of elevated population exposure around Paradise, Magalia, Chico, and Oroville in this study reflects the growing interaction between human settlements and wildfire-prone environments, a pattern documented across western North America.
+
+The integrated wildfire risk assessment extends the susceptibility and exposure analyses by incorporating socioeconomic vulnerability. These findings reinforce the principle that disaster risk is not determined solely by hazard occurrence but by the interaction of hazard, exposure, and vulnerability (IPCC, 2022; UNDRR, 2017). Previous research by Chas-Amil et al. (2022) demonstrated the importance of considering social vulnerability alongside wildfire risk and WUI distribution when developing geographically targeted preparedness, mitigation, and adaptation strategies. Their research in Galicia, Spain, identified spatial relationships between social vulnerability and wildfire risk, highlighting the importance of incorporating socioeconomic characteristics into wildfire risk assessment. In the present study, the inclusion of poverty, older adult population, income characteristics, and disability indicators provides a spatial representation of selected socioeconomic dimensions that may influence community preparedness and resilience. The results are consistent with previous research showing that socially vulnerable populations may experience disproportionate wildfire impacts because of differences in adaptive capacity and access to resources (Chas-Amil et al., 2022).
+
+The concentration of elevated integrated wildfire risk around Paradise, Magalia, and surrounding foothill communities is particularly noteworthy given Butte County's history of destructive wildfire events. The 2018 Camp Fire demonstrated the severe consequences that can occur when wildfire hazards intersect with exposed populations and developed communities. The fire spread through communities including Concow, Paradise, and Magalia, resulting in extensive structural destruction, widespread evacuations, and loss of life (NIST, 2020). This historical event provides important local context for interpreting the spatial patterns identified in the present assessment. Although this study does not retrospectively validate the Camp Fire or predict future fire events, its findings highlight the importance of identifying areas where wildfire susceptibility, population exposure, and socioeconomic vulnerability intersect.
+
+From a public health perspective, the findings highlight the importance of integrating environmental risk assessment with community preparedness and resilience planning. Wildfires have public health consequences extending beyond direct fire exposure, particularly through smoke-related air pollution and associated respiratory and cardiovascular health concerns. Rappold et al. (2017) examined community vulnerability to the health impacts of wildland fire smoke exposure, demonstrating the importance of identifying populations that may be more susceptible to smoke-related health impacts. Similarly, Vargo et al. (2023) documented the relationship between wildfire smoke exposure and social disadvantage across communities in the United States. Although the present project does not directly measure wildfire smoke exposure, respiratory illness, or other health outcomes, its integration of population exposure and socioeconomic vulnerability provides a geospatial framework that can inform public health preparedness and community resilience planning.
+
+The findings also have implications for environmental justice and equitable disaster risk reduction. Communities experiencing elevated wildfire susceptibility alongside socioeconomic vulnerability may face additional challenges in preparing for, responding to, and recovering from wildfire events. Identifying these spatial intersections can help inform targeted community outreach, evacuation planning, preparedness initiatives, and the prioritization of resilience resources. The resulting spatial assessment can support climate adaptation, hazard mitigation, and public health planning by providing geographic evidence of where environmental wildfire hazards and selected dimensions of community vulnerability overlap.
+
+Overall, this study demonstrates the value of integrating machine learning-based wildfire susceptibility modeling with population exposure and socioeconomic vulnerability assessment. The findings show that wildfire susceptibility alone provides an incomplete representation of community wildfire risk. Incorporating population distribution and socioeconomic characteristics offers a broader understanding of where environmental hazards and community vulnerability intersect. The developed GeoAI framework provides a reproducible geospatial approach that can support wildfire preparedness, climate resilience, environmental justice assessments, and public health decision-making in Butte County and other wildfire-prone regions.
+
+
 ## Census API Configuration
 
-This project uses the U.S. Census Bureau API to obtain demographic and socioeconomic data used in the exposure and community vulnerability assessments.
+This research uses the U.S. Census Bureau API to retrieve American Community Survey (ACS) demographic and socioeconomic data for the population exposure and community vulnerability assessments.
 
 ### Obtain a Census API Key
 
@@ -477,21 +332,14 @@ Request a free Census API key:
 
 ### Configure the API Key
 
-Update the following files:
+The current implementation reads the Census API key from two locations:
 
-```text
-config/config.yaml
-src/download/population.py
-src/download/vulnerability.py
-```
+- `config/config.yaml`: Used by the socioeconomic vulnerability data downloader.
+- `src/download/population.py`: Contains a separate `CENSUS_API_KEY` configuration variable for the population data downloader.
 
-Replace:
+Replace the placeholder values with a valid API key in your local working copy before executing the corresponding scripts.
 
-```python
-CENSUS_API_KEY = "YOUR_CENSUS_API_KEY"
-```
-
-with your personal Census API key.
+**Security note:** Do not commit personal API keys to the public GitHub repository. Retain the placeholder values in the publicly shared files.
 
 ### Download Census Data
 
@@ -544,9 +392,9 @@ python src/download/wildfire.py
 Standardize coordinate systems, spatial extent, raster alignment, and resolution:
 
 ```bash
-python src/preprocessing/align.py
-python src/preprocessing/clip.py
 python src/preprocessing/reproject.py
+python src/preprocessing/clip.py
+python src/preprocessing/align.py
 python src/preprocessing/standardize.py
 ```
 
@@ -647,6 +495,11 @@ The notebooks are intended for analysis and interpretation of model outputs rath
 
 ```text
 .
+## Repository Structure
+
+```text
+wildfire-geoai-california/
+│
 ├── README.md
 ├── LICENSE
 ├── environment.yaml
@@ -655,10 +508,11 @@ The notebooks are intended for analysis and interpretation of model outputs rath
 │   └── config.yaml
 │
 ├── data/
-│   ├── raw/
-│   ├── processed/
 │   ├── features/
-│   └── training/
+│   ├── raw/                  # Generated locally; excluded from Git
+│   ├── interim/              # Generated locally; excluded from Git
+│   ├── processed/            # Generated locally; excluded from Git
+│   └── training/             # Generated locally; excluded from Git
 │
 ├── notebooks/
 │   ├── 01_model_evaluation.ipynb
@@ -670,44 +524,103 @@ The notebooks are intended for analysis and interpretation of model outputs rath
 │   ├── figures/
 │   ├── maps/
 │   ├── model_evaluation/
-│   └── models/
+│   └── models/               # Model files excluded from Git
 │
-├── src/
-│   ├── download/
-│   ├── preprocessing/
-│   ├── features/
-│   ├── modeling/
-│   ├── exposure/
-│   └── risk/
+└── src/
+    ├── download/
+    ├── preprocessing/
+    ├── features/
+    ├── modeling/
+    ├── exposure/
+    └── risk/
 ```
 
 ---
 
 ## Reproducibility
 
-This repository is designed as a reproducible geospatial machine learning workflow. All major analytical steps—from data acquisition through risk assessment—are automated through modular Python scripts and documented notebooks.
+This repository provides a modular geospatial machine learning workflow supported by Python scripts, configuration files, and Jupyter notebooks.
 
-Key reproducibility features include:
+Reproducibility is supported through:
 
-* Version control with Git/GitHub
-* Environment management with Conda
-* Automated preprocessing workflows
-* Modular Python scripts
-* Open geospatial data sources
-* Reproducible machine learning workflows
+- Version control using Git and GitHub.
+- Conda-based environment management.
+- Automated geospatial data acquisition.
+- Modular data preprocessing and feature engineering scripts.
+- Documented Random Forest modeling and evaluation procedures.
+- Publicly available geospatial and demographic data sources.
+- Jupyter notebooks for visualization, interpretation, and quality assurance.
+
+Raw datasets, intermediate processing files, and selected model artifacts are excluded from version control and must be generated locally when reproducing the workflow.
+
+Refer to the Workflow Execution and Installation and Setup sections for implementation instructions.
+
+## Installation and Setup
+
+### System Requirements
+
+The project environment is configured for:
+
+- Python 3.11
+- Conda (recommended)
+- Linux or Windows Subsystem for Linux (WSL Ubuntu)
+- JupyterLab
+- ArcGIS Pro (optional, for cartographic map production)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/Gracey0201/wildfire-geoai-california.git
+
+cd wildfire-geoai-california
+```
+
+### Create the Conda Environment
+
+```bash
+conda env create -f environment.yaml
+
+conda activate wildfire-geoai
+```
+
+### Verify Installation
+
+Confirm that required packages are available:
+
+```bash
+python -c "import geopandas, rasterio, sklearn; print('Installation successful')"
+```
+
+### Reproduce the Analysis
+
+Follow the commands documented in the Workflow Execution section to run the data acquisition, preprocessing, feature engineering, modeling, exposure, vulnerability, and integrated risk assessment stages.
+
+The Jupyter notebooks provide additional visualization, model interpretation, and quality assurance of the resulting outputs.
+
 
 ---
 
-## Future Work
+## Limitations and Future Work
 
-Potential future enhancements include:
+### Limitations
 
-* Explainable AI (SHAP) analysis
-* Climate projection integration
-* Environmental justice hotspot analysis
-* Interactive web GIS deployment
-* Multi-county scaling across California
-* Temporal wildfire forecasting
+Several limitations should be considered when interpreting the findings of this study:
+
+- **Data resolution and temporal coverage:** Differences in spatial resolution and temporal coverage among input datasets may influence the representation of wildfire susceptibility, population exposure, and socioeconomic vulnerability.
+- **Model validation:** Potential spatial autocorrelation among geospatial observations may influence model evaluation results. Future spatially independent validation is needed to further assess model generalizability.
+- **Socioeconomic indicators:** The vulnerability assessment incorporates selected socioeconomic indicators, including poverty, older adult population, income characteristics, and disability indicators. These variables do not capture all dimensions of community vulnerability or adaptive capacity.
+- **Public health outcomes:** The study assesses population exposure and socioeconomic vulnerability but does not directly measure wildfire smoke exposure, air quality, respiratory illness, or other health outcomes.
+
+### Future Work
+
+Future research could extend the framework through:
+
+- **Explainable Artificial Intelligence (XAI):** Apply SHAP analysis to improve model interpretability and examine predictor contributions.
+- **Climate projection integration:** Incorporate future climate projections to explore potential changes in wildfire susceptibility under different climate scenarios.
+- **Environmental justice analysis:** Apply spatial hotspot analysis to identify areas where wildfire risk and socioeconomic disadvantage intersect.
+- **Interactive Web GIS deployment:** Develop an interactive platform for communicating spatial risk patterns to researchers, planners, and communities.
+- **Multi-county scaling:** Extend the framework to additional wildfire-prone counties across California to examine its transferability.
+- **Temporal wildfire forecasting:** Incorporate temporal datasets and modeling approaches to investigate changes in wildfire susceptibility and potential future wildfire patterns.
 
 ---
 
@@ -723,11 +636,13 @@ Jain, P., Coogan, S. C. P., Subramanian, S. G., Crowley, M., Taylor, S., & Flann
 
 Kramer, H. A., Mockrin, M. H., Alexandre, P. M., & Radeloff, V. C. (2019). High wildfire damage in interface communities in California. International Journal of Wildland Fire, 28(9), 641–650.
 
+NIST. (2020). *Camp Fire Preliminary Reconnaissance*. National Institute of Standards and Technology, Technical Note 2105.
+
 Radeloff, V. C., Helmers, D. P., Kramer, H. A., et al. (2018). Rapid growth of the US wildland–urban interface raises wildfire risk. Proceedings of the National Academy of Sciences, 115(13), 3314–3319.
 
 Syphard, A. D., Keeley, J. E., & Massada, A. B. (2019). Housing arrangement and location determine the likelihood of housing loss due to wildfire. PLoS ONE, 7(3), e33954.
 
-UNDRR. (2023). Global Assessment Report on Disaster Risk Reduction. United Nations Office for Disaster Risk Reduction.
+United Nations Office for Disaster Risk Reduction (UNDRR). 2017. The Sendai Framework Terminology on Disaster Risk Reduction. "Disaster risk". Accessed 1 November 2026.  https://www.undrr.org/terminology/disaster-risk.
 
 
 ## License
