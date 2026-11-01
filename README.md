@@ -1,6 +1,8 @@
 # Supporting Community Wildfire Preparedness in Butte County, California: An Integrated Geospatial Risk Assessment Framework
 A reproducible GeoAI framework integrating Random Forest wildfire susceptibility modeling, population exposure, and socioeconomic vulnerability to assess wildfire risk in Butte County, California.
 
+---
+
 ## Project Overview
 
 Wildfires pose significant threats to communities through direct exposure to fire, smoke-related health impacts, infrastructure damage, displacement, and disruption of essential services. These impacts are not distributed equally, as communities differ in their exposure to wildfire hazards and their socioeconomic capacity to prepare for, respond to, and recover from wildfire events.
@@ -47,6 +49,8 @@ The specific objectives are to:
 5. **Generate decision-support maps:** Produce spatial outputs illustrating wildfire susceptibility, population exposure, and integrated wildfire risk across Butte County.
 
 6. **Support public health and community preparedness:** Demonstrate how integrated geospatial analysis can inform targeted wildfire preparedness, climate resilience planning, and public health decision-making.
+
+
 ---
 
 ## Study Area
@@ -58,7 +62,6 @@ Butte County was selected as the study area because of its history of destructiv
 <img width="3300" height="2550" alt="Study area map showing Butte County, California, within the state of California" src="https://github.com/user-attachments/assets/7c8b2f8a-82c6-456e-afa0-e38f3fa51959" />
 
 ---
-
 
 ## Data and Methodology
 
@@ -171,7 +174,6 @@ The integrated assessment identifies geographic areas where elevated wildfire su
 The final output is a spatially explicit wildfire risk map for Butte County, California, intended to support community preparedness, climate resilience planning, and public health decision-making.
 
 ---
-
 
 ## Results
 
@@ -318,6 +320,30 @@ From a public health perspective, the findings highlight the importance of integ
 The findings also have implications for environmental justice and equitable disaster risk reduction. Communities experiencing elevated wildfire susceptibility alongside socioeconomic vulnerability may face additional challenges in preparing for, responding to, and recovering from wildfire events. Identifying these spatial intersections can help inform targeted community outreach, evacuation planning, preparedness initiatives, and the prioritization of resilience resources. The resulting spatial assessment can support climate adaptation, hazard mitigation, and public health planning by providing geographic evidence of where environmental wildfire hazards and selected dimensions of community vulnerability overlap.
 
 Overall, this study demonstrates the value of integrating machine learning-based wildfire susceptibility modeling with population exposure and socioeconomic vulnerability assessment. The findings show that wildfire susceptibility alone provides an incomplete representation of community wildfire risk. Incorporating population distribution and socioeconomic characteristics offers a broader understanding of where environmental hazards and community vulnerability intersect. The developed GeoAI framework provides a reproducible geospatial approach that can support wildfire preparedness, climate resilience, environmental justice assessments, and public health decision-making in Butte County and other wildfire-prone regions.
+
+---
+
+## Reference
+
+Abatzoglou, J. T., & Williams, A. P. (2016). Impact of anthropogenic climate change on wildfire across western US forests. Proceedings of the National Academy of Sciences, 113(42), 11770–11775.
+
+Chas-Amil, M. L., Touza, J., García-Martínez, E., & Varela, E. (2022). Spatial patterns of social vulnerability in relation to wildfire risk. Landscape and Urban Planning, 228, 104566.
+
+IPCC. (2022). Climate Change 2022: Impacts, Adaptation and Vulnerability. Working Group II Contribution to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change.
+
+Jain, P., Coogan, S. C. P., Subramanian, S. G., Crowley, M., Taylor, S., & Flannigan, M. D. (2020). A review of machine learning applications in wildfire science and management. Environmental Reviews, 28(4), 478–505.
+
+Kramer, H. A., Mockrin, M. H., Alexandre, P. M., & Radeloff, V. C. (2019). High wildfire damage in interface communities in California. International Journal of Wildland Fire, 28(9), 641–650.
+
+NIST. (2020). *Camp Fire Preliminary Reconnaissance*. National Institute of Standards and Technology, Technical Note 2105.
+
+Radeloff, V. C., Helmers, D. P., Kramer, H. A., et al. (2018). Rapid growth of the US wildland–urban interface raises wildfire risk. Proceedings of the National Academy of Sciences, 115(13), 3314–3319.
+
+Syphard, A. D., Keeley, J. E., & Massada, A. B. (2019). Housing arrangement and location determine the likelihood of housing loss due to wildfire. PLoS ONE, 7(3), e33954.
+
+United Nations Office for Disaster Risk Reduction (UNDRR). 2017. The Sendai Framework Terminology on Disaster Risk Reduction. "Disaster risk". Accessed 1 November 2026.  https://www.undrr.org/terminology/disaster-risk.
+
+---
 
 
 ## Census API Configuration
@@ -537,6 +563,8 @@ wildfire-geoai-california/
 
 ---
 
+
+
 ## Reproducibility
 
 This repository provides a modular geospatial machine learning workflow supported by Python scripts, configuration files, and Jupyter notebooks.
@@ -598,6 +626,7 @@ Follow the commands documented in the Workflow Execution section to run the data
 The Jupyter notebooks provide additional visualization, model interpretation, and quality assurance of the resulting outputs.
 
 
+
 ---
 
 ## Limitations and Future Work
@@ -611,6 +640,9 @@ Several limitations should be considered when interpreting the findings of this 
 - **Socioeconomic indicators:** The vulnerability assessment incorporates selected socioeconomic indicators, including poverty, older adult population, income characteristics, and disability indicators. These variables do not capture all dimensions of community vulnerability or adaptive capacity.
 - **Public health outcomes:** The study assesses population exposure and socioeconomic vulnerability but does not directly measure wildfire smoke exposure, air quality, respiratory illness, or other health outcomes.
 
+---
+
+
 ### Future Work
 
 Future research could extend the framework through:
@@ -621,28 +653,9 @@ Future research could extend the framework through:
 - **Interactive Web GIS deployment:** Develop an interactive platform for communicating spatial risk patterns to researchers, planners, and communities.
 - **Multi-county scaling:** Extend the framework to additional wildfire-prone counties across California to examine its transferability.
 - **Temporal wildfire forecasting:** Incorporate temporal datasets and modeling approaches to investigate changes in wildfire susceptibility and potential future wildfire patterns.
+  
 
 ---
-
-## Reference
-
-Abatzoglou, J. T., & Williams, A. P. (2016). Impact of anthropogenic climate change on wildfire across western US forests. Proceedings of the National Academy of Sciences, 113(42), 11770–11775.
-
-Chas-Amil, M. L., Touza, J., García-Martínez, E., & Varela, E. (2022). Spatial patterns of social vulnerability in relation to wildfire risk. Landscape and Urban Planning, 228, 104566.
-
-IPCC. (2022). Climate Change 2022: Impacts, Adaptation and Vulnerability. Working Group II Contribution to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change.
-
-Jain, P., Coogan, S. C. P., Subramanian, S. G., Crowley, M., Taylor, S., & Flannigan, M. D. (2020). A review of machine learning applications in wildfire science and management. Environmental Reviews, 28(4), 478–505.
-
-Kramer, H. A., Mockrin, M. H., Alexandre, P. M., & Radeloff, V. C. (2019). High wildfire damage in interface communities in California. International Journal of Wildland Fire, 28(9), 641–650.
-
-NIST. (2020). *Camp Fire Preliminary Reconnaissance*. National Institute of Standards and Technology, Technical Note 2105.
-
-Radeloff, V. C., Helmers, D. P., Kramer, H. A., et al. (2018). Rapid growth of the US wildland–urban interface raises wildfire risk. Proceedings of the National Academy of Sciences, 115(13), 3314–3319.
-
-Syphard, A. D., Keeley, J. E., & Massada, A. B. (2019). Housing arrangement and location determine the likelihood of housing loss due to wildfire. PLoS ONE, 7(3), e33954.
-
-United Nations Office for Disaster Risk Reduction (UNDRR). 2017. The Sendai Framework Terminology on Disaster Risk Reduction. "Disaster risk". Accessed 1 November 2026.  https://www.undrr.org/terminology/disaster-risk.
 
 
 ## License
